@@ -6,7 +6,13 @@ require Pod::Executable.execute_command('node', ['-p',
   )', __dir__]).strip
 
 platform :ios, min_ios_version_supported
+
+ENV['FLIPPER_VERSION'] = '0.125.0'
+
 prepare_react_native_project!
+
+use_modular_headers!
+
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -16,6 +22,11 @@ end
 
 target 'SAR2' do
   config = use_native_modules!
+
+  pod 'Firebase', :modular_headers => true
+  pod 'FirebaseCoreInternal', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
 
   use_react_native!(
     :path => config[:reactNativePath],

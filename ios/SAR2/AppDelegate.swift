@@ -1,4 +1,5 @@
 import UIKit
+import Firebase
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
@@ -6,6 +7,8 @@ import ReactAppDependencyProvider
 @main
 class AppDelegate: RCTAppDelegate {
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+
     self.moduleName = "SAR2"
     self.dependencyProvider = RCTAppDependencyProvider()
 
@@ -21,10 +24,10 @@ class AppDelegate: RCTAppDelegate {
   }
 
   override func bundleURL() -> URL? {
-#if DEBUG
-    RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
-#else
-    Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-#endif
+    #if DEBUG
+      RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
+    #else
+      Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+    #endif
   }
 }
