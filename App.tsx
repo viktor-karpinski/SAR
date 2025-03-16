@@ -4,6 +4,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import Background from './components/Background';
 import GlobalProvider from './context';
 import Auth from './components/Auth';
+import checkUserAuthentication from './checkUserAuthentication'
 
 const App: React.FC = () => {
   const [recievedToken, setRecievedToken] = useState("");
@@ -15,6 +16,8 @@ const App: React.FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
 
   useEffect(() => {
+    checkAuth()
+  
     requestUserPermission();
 
     const unsubscribe = messaging().onMessage(
@@ -30,6 +33,15 @@ const App: React.FC = () => {
       unsubscribe();
     };
   }, []);
+
+  const checkAuth = async () => {
+    let authenticated = await checkUserAuthentication();
+    setIsAuthenticated(authenticated.isAuthenticated);
+
+    if (authenticated.isAuthenticated) {
+      handleAuthSuccess()
+    } 
+  }
 
   const requestUserPermission = async (): Promise<void> => {
     const authStatus = await messaging().requestPermission();
