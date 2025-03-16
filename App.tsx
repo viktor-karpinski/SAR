@@ -4,6 +4,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import Background from './components/Background';
 import GlobalProvider from './context';
 import LoginScreen from './screens/Login';
+import SignupScreen from './screens/Signup';
 
 const App: React.FC = () => {
   const [recievedToken, setRecievedToken] = useState("");
@@ -68,15 +69,23 @@ const App: React.FC = () => {
   };
 
   const handleScrollToSignup = () => {
-    /*Animated.timing(authHorizontal, {
+    Animated.timing(authHorizontal, {
       toValue: -Dimensions.get("window").width,
       duration: 300,
       useNativeDriver: false,
-    }).start();*/
+    }).start();
+  };
+
+  const handleScrollToLogin = () => {
+    Animated.timing(authHorizontal, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
   };
 
   const handleAuthSuccess = () => {
-    /*setIsAuthenticated(true)
+    setIsAuthenticated(true)
     Animated.timing(authVertical, {
       toValue: Dimensions.get("window").height,
       duration: 300,
@@ -93,14 +102,21 @@ const App: React.FC = () => {
         duration: 500,
         useNativeDriver: false,
       }).start();
-    }, 300)*/
+    }, 300)
   }
 
   return (
     <GlobalProvider>
       <Background>
-        
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Animated.View
+          style={[
+            styles.authContainer,
+            {
+              left: authHorizontal,
+              top: authVertical,
+            },
+          ]}
+        >
           <LoginScreen
             extra={{
               width: Dimensions.get("screen").width,
@@ -109,12 +125,20 @@ const App: React.FC = () => {
             onSignupRedirect={handleScrollToSignup}
             onAuthSuccess={handleAuthSuccess}
           />
-          <Text style={{fontFamily: "Menlo", color: "#ffffff"}} selectable>SAR2 Firebase Notifications (token: {recievedToken})</Text>
-        </View>
+          <SignupScreen
+            extra={{
+              width: Dimensions.get("screen").width,
+              height: Dimensions.get("screen").height,
+            }}
+            onLoginRedirect={handleScrollToLogin}
+          />
+        </Animated.View>
       </Background>
     </GlobalProvider>
   );
 };
+
+//<Text style={{fontFamily: "Menlo", color: "#ffffff"}} selectable>SAR2 Firebase Notifications (token: {recievedToken})</Text>
 
 const styles = StyleSheet.create({
   background: {
