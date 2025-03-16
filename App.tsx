@@ -3,13 +3,11 @@ import { Alert, View, Text, StyleSheet, Dimensions, Animated } from 'react-nativ
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import Background from './components/Background';
 import GlobalProvider from './context';
-import LoginScreen from './screens/Login';
-import SignupScreen from './screens/Signup';
+import Auth from './components/Auth';
 
 const App: React.FC = () => {
   const [recievedToken, setRecievedToken] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const authHorizontal = useRef(new Animated.Value(0)).current;
   const authVertical = useRef(new Animated.Value(0)).current;
   const navVertical = useRef(new Animated.Value(-200)).current;
   const appVertical = useRef(new Animated.Value(-(2*Dimensions.get("window").height))).current;
@@ -68,22 +66,6 @@ const App: React.FC = () => {
     }
   };
 
-  const handleScrollToSignup = () => {
-    Animated.timing(authHorizontal, {
-      toValue: -Dimensions.get("window").width,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const handleScrollToLogin = () => {
-    Animated.timing(authHorizontal, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-  };
-
   const handleAuthSuccess = () => {
     setIsAuthenticated(true)
     Animated.timing(authVertical, {
@@ -108,31 +90,7 @@ const App: React.FC = () => {
   return (
     <GlobalProvider>
       <Background>
-        <Animated.View
-          style={[
-            styles.authContainer,
-            {
-              left: authHorizontal,
-              top: authVertical,
-            },
-          ]}
-        >
-          <LoginScreen
-            extra={{
-              width: Dimensions.get("screen").width,
-              height: Dimensions.get("screen").height,
-            }}
-            onSignupRedirect={handleScrollToSignup}
-            onAuthSuccess={handleAuthSuccess}
-          />
-          <SignupScreen
-            extra={{
-              width: Dimensions.get("screen").width,
-              height: Dimensions.get("screen").height,
-            }}
-            onLoginRedirect={handleScrollToLogin}
-          />
-        </Animated.View>
+        <Auth authVertical={authVertical} handleAuth={handleAuthSuccess} />
       </Background>
     </GlobalProvider>
   );
@@ -147,14 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  authContainer: {
-    flex: 1,
-    flexDirection: "row",
-    overflow: "hidden",
-    width: "200%",
-    position: "absolute",
-    top: 0,
-  },
   appContainer: {
     flex: 1,
     flexDirection: "row",

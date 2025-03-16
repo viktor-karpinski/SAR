@@ -60,6 +60,6 @@ const styles = StyleSheet.create({
 
         height: 60,
         position: "absolute",
-        top: 50, left: 20
+        top: 50, left: 0
     },
 });
