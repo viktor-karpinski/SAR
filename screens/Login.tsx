@@ -40,19 +40,16 @@ export default function LoginScreen({ extra, onSignupRedirect, onAuthSuccess }: 
       return;
     }
 
-    //try {
+    try {
       setLoading(true);
 
-      Alert.alert("BEFORE FIREBASE, " + email + ", " + password)
-      //const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      //const user = userCredential.user;
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-      //if (user) {
-        //const token = await user.getIdToken();
+      if (user) {
+        const token = await user.getIdToken();
 
-        //Alert.alert("FIREBASE SUCCESS " + token)
-
-        /*const response = await fetch(apiURL + "auth", {
+        const response = await fetch(apiURL + "auth", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -78,14 +75,14 @@ export default function LoginScreen({ extra, onSignupRedirect, onAuthSuccess }: 
             email: ["E-mail alebo heslo je nesprávne"], 
           })
         }
-      }*/
-    /*} /*catch (error: any) {
+      }
+    } catch (error: any) {
       setErrors({
         email: ["E-mail alebo heslo je nesprávne"], 
       })
     } finally {
       setLoading(false);
-    }*/
+    }
   }
 
   const handleInputChange = (field: string, value: string) => {
@@ -114,10 +111,10 @@ export default function LoginScreen({ extra, onSignupRedirect, onAuthSuccess }: 
           value={email}
           icon="email"
           onChangeText={(value) => handleInputChange("email", value)}
-          //keyboardType="email-address"
+          keyboardType="email-address"
           extraStyle={styles.spacing}
           autoCorrect={false}
-          //error={errors.email}
+          error={errors.email}
         />
 
         <Input
@@ -126,10 +123,10 @@ export default function LoginScreen({ extra, onSignupRedirect, onAuthSuccess }: 
           value={password}
           icon="password"
           onChangeText={(value) => handleInputChange("password", value)}
-          //keyboardType="visible-password"
+          keyboardType="visible-password"
           extraStyle={styles.spacing}
           autoCorrect={false}
-          //error={errors.password}
+          error={errors.password}
         />
 
         <Button
