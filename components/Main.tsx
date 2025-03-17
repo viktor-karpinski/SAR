@@ -2,13 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { Alert, Animated, Dimensions, StyleSheet } from "react-native";
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import NavBar from "./NavBar";
+import { useGlobalContext } from "./../context";
+/*import SettingsScreen from "../screens/Settings";
+import MembersScreen from "../screens/Members";
+import HomeScreen from "../screens/Home";*/
 
 type Props = {
     navVertical: Animated.Value;
     appVertical: Animated.Value;
+    handleLogout?: () => void;
 };
 
-const Main = ({navVertical, appVertical}: Props) => {
+const Main = ({navVertical, appVertical, handleLogout}: Props) => {
+    const {apiURL } = useGlobalContext(); 
     const [recievedToken, setRecievedToken] = useState("");
     const appHorizontal = useRef(new Animated.Value(0)).current;
     const [currentTab, setCurrentTab] = useState(0);
@@ -47,7 +53,7 @@ const Main = ({navVertical, appVertical}: Props) => {
             const token = await messaging().getToken();
             setRecievedToken(token)
 
-            const response = await fetch('https://sar.viktorkarpinski.com/api/store-fcm-token', {
+            const response = await fetch(apiURL + 'store-fcm-token', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -89,36 +95,24 @@ const Main = ({navVertical, appVertical}: Props) => {
         }).start();
     }
 
+    const localHandleLogout = () => {
+        setCurrentTab(0)
+        handleTabSwitch()
+        if (handleLogout)
+            handleLogout()
+    }
+
     return (
         <>
             <NavBar extra={{bottom: navVertical}} currentTab={currentTab} setCurrentTab={setCurrentTab} onTabSwitch={handleTabSwitch} />
-            <Animated.View style={[styles.appContainer, {top: appVertical, left: appHorizontal}]}>
-                <HomeScreen
-                    extra={{
-                    width: Dimensions.get("screen").width,
-                    height: Dimensions.get("screen").height,
-                    
-                }}
-                stacked={handleStackedHomeScreen}
-                back={handleBackHomeScreen}
-                />
-                <MembersScreen
-                    extra={{
-                    width: Dimensions.get("screen").width,
-                    height: Dimensions.get("screen").height,
-                }}
-                />
-                <SettingsScreen
-                    extra={{
-                    width: Dimensions.get("screen").width,
-                    height: Dimensions.get("screen").height,
-                }}
-                onLogOut={handleLogout}
-                />
-            </Animated.View>
+            
         </>
     )
 }
+
+/*<Animated.View style={[styles.appContainer, {top: appVertical, left: appHorizontal}]}>
+                
+            </Animated.View>*/ 
 
 const styles = StyleSheet.create({
   appContainer: {

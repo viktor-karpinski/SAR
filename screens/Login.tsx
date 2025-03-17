@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { StyleSheet, Alert, Image, View, Dimensions} from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
-
 import Button from "../components/Button";
 import TextButton from "../components/TextButton";
 import Input from "../components/Input";
-
 import { useGlobalContext } from "../context"; 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -18,8 +16,7 @@ type InputProps = {
 };
 
 export default function LoginScreen({ extra, onSignupRedirect, onAuthSuccess }: InputProps) {
-  const { setApiToken, setFirebaseToken, apiURL, setUser } = useGlobalContext(); 
-
+  const { setFirebaseToken } = useGlobalContext(); 
   const [email, setEmail] = useState("viktor@karpinski.com");
   const [password, setPassword] = useState("password");
   const [loading, setLoading] = useState(false);
@@ -48,33 +45,10 @@ export default function LoginScreen({ extra, onSignupRedirect, onAuthSuccess }: 
 
       if (user) {
         const token = await user.getIdToken();
+        setFirebaseToken(token)
 
-        const response = await fetch(apiURL + "auth", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({
-            "firebase_token": token,
-          }),
-        });
-  
-        const data = await response.json();
-
-        if (response.ok && data) {
-          Alert.alert("SUCCESS " + data)
-
-          setApiToken(data.token)
-          setFirebaseToken(token)
-          setUser(data.user)
-          if (onAuthSuccess)
-            onAuthSuccess()
-        } else {
-          setErrors({
-            email: ["E-mail alebo heslo je nesprávne"], 
-          })
-        }
+        if (onAuthSuccess)
+          onAuthSuccess()
       }
     } catch (error: any) {
       setErrors({

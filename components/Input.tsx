@@ -74,7 +74,7 @@ const Input = memo(
               onChangeText(text);
             }}
             autoCorrect={autoCorrect}
-            keyboardType={keyboardType}
+            //keyboardType={keyboardType}
             secureTextEntry={!isPasswordVisible}
             value={value}
             placeholderTextColor={"#474848"}
@@ -90,7 +90,7 @@ const Input = memo(
                 ]}
                 placeholder={secondPlaceholder}
                 onChangeText={secondOnChangeText}
-                keyboardType={keyboardType}
+                //keyboardType={keyboardType}
                 value={secondValue}
                 placeholderTextColor={"#474848"}
               />
