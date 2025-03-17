@@ -44,6 +44,22 @@ export default function HomeScreen({extra, stacked, back}: Props) {
   const [ currentStatus, setCurrentStatus ] = useState<number>(0);
 
   useEffect(() => {
+    const fetchData = async () => {
+      await getEvents();
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    events.forEach((event: Object) => {
+      if (!event.till) {
+       handleSetCurrentEvent(event)
+      }
+    })
+  }, [events])
+
+  const getEvents = async () => {
     const response = await fetch(apiURL + "events", {
       method: "GET",
       headers: {
@@ -59,15 +75,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
       setEvents(data)
       setHasEvent(true)
     }
-  }, []);
-
-  useEffect(() => {
-    events.forEach((event: Object) => {
-      if (!event.till) {
-       handleSetCurrentEvent(event)
-      }
-    })
-  }, [events])
+  }
 
   const handleEvent = () => {
     Animated.timing(mainVertical, {
@@ -312,7 +320,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
   return (
       <View style={[styles.wrapper, extra]}>
         <Animated.View style={[styles.container, {top: mainVertical, opacity: mainOpacity}]}>
-          <Image source={require("../../assets/sar-logo.png")} style={styles.logo} />
+          <Image source={require("./../assets/sar-logo.png")} style={styles.logo} />
           <View style={{ padding: 20, width: "100%", marginTop: 30 }}>
             <LargeButton label="Nový zásah" extraStyle={{}} onPress={handleEvent} isPending={hasPendingEvent} />
           </View>

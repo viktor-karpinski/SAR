@@ -7,7 +7,7 @@ type Props = {
 const UserPendingRow = ({user} : Props) => {
     const statusImages = {
         0: require("../assets/waiting.png"),
-        1: require("../assets/images/confirmed.png"),
+        1: require("../assets/confirmed.png"),
         2: require("../assets/declined.png"),
     };
 
