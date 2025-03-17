@@ -9,7 +9,7 @@ import TextArea from "@/components/TextArea";
 import EventDetails from "@/components/EventDetails";
 import UserPendingRow from "@/components/UserPendingRow";
 import PendingCounter from "@/components/PendingCounter";
-import ParticipationConfirmation from "@/components/ParticipationConfirmation";
+import ParticipationConfirmation from "../components/ParticipationConfirmation";
 import LoadingAnimation from "../components/LoadingAnimation";
 
 type InputProps = {
