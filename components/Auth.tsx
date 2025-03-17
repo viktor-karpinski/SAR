@@ -1,4 +1,4 @@
-import { Animated, Dimensions } from 'react-native';
+import { Alert, Animated, Dimensions } from 'react-native';
 import { useEffect, useRef } from 'react';
 import { useGlobalContext } from "./../context"; 
 import checkUserAuthentication from './../checkUserAuthentication'
@@ -19,6 +19,7 @@ export default function Auth({authVertical, handleAuth}: Props) {
     }, [])
     
     const checkAuth = async () => {
+        Alert.alert('FROM CHECK AUTH')
         let authenticated = await checkUserAuthentication();
 
         if (authenticated.isAuthenticated) {
@@ -66,22 +67,21 @@ export default function Auth({authVertical, handleAuth}: Props) {
     }
 
     const handleAuthSuccess = () => {
+        Alert.alert("GETTING API TOKEN")
         getApiToken()
     }
 
     return (
-        <Animated.View
-            style={{
-                flex: 1,
-                flexDirection: "row",
-                overflow: "hidden",
-                width: "200%",
-                position: "absolute",
+        <Animated.View style={{
+            flex: 1,
+            flexDirection: "row",
+            overflow: "hidden",
+            width: "200%",
+            position: "absolute",
 
-                left: authHorizontal,
-                top: authVertical,
-            }}
-        >
+            left: authHorizontal,
+            top: authVertical,
+        }}>
             <LoginScreen
                 extra={{
                 width: Dimensions.get("screen").width,

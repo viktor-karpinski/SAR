@@ -3,9 +3,9 @@ import { Alert, Animated, Dimensions, StyleSheet } from "react-native";
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import NavBar from "./NavBar";
 import { useGlobalContext } from "./../context";
-/*import SettingsScreen from "../screens/Settings";
+import SettingsScreen from "../screens/Settings";
 import MembersScreen from "../screens/Members";
-import HomeScreen from "../screens/Home";*/
+import HomeScreen from "../screens/Home";
 
 type Props = {
     navVertical: Animated.Value;
@@ -105,14 +105,43 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
     return (
         <>
             <NavBar extra={{bottom: navVertical}} currentTab={currentTab} setCurrentTab={setCurrentTab} onTabSwitch={handleTabSwitch} />
-            
+            <Animated.View style={{
+                flex: 1,
+                flexDirection: "row",
+                overflow: "hidden",
+                alignItems: "flex-start",
+                width: Dimensions.get("window").width * 3,
+                position: "absolute",
+                zIndex: 0,
+                
+                top: appVertical, left: appHorizontal
+            }}>
+               <HomeScreen
+                    extra={{
+                    width: Dimensions.get("screen").width,
+                    height: Dimensions.get("screen").height,
+                    
+                }}
+                stacked={handleStackedHomeScreen}
+                back={handleBackHomeScreen}
+                />
+                <MembersScreen
+                    extra={{
+                    width: Dimensions.get("screen").width,
+                    height: Dimensions.get("screen").height,
+                }}
+                />
+                <SettingsScreen
+                    extra={{
+                    width: Dimensions.get("screen").width,
+                    height: Dimensions.get("screen").height,
+                }}
+                onLogOut={handleLogout}
+                /> 
+            </Animated.View>
         </>
     )
 }
-
-/*<Animated.View style={[styles.appContainer, {top: appVertical, left: appHorizontal}]}>
-                
-            </Animated.View>*/ 
 
 const styles = StyleSheet.create({
   appContainer: {

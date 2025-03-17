@@ -1,5 +1,5 @@
 import { Animated, Dimensions, Image, StyleSheet, Text, View, ScrollView } from "react-native";
-/*import { useGlobalContext } from "../context"; 
+import { useGlobalContext } from "../context"; 
 import { useEffect, useRef, useState } from "react";
 import LargeButton from "@/components/LargeButton";
 import PastEventRow from "@/components/PastEventRow";
@@ -10,7 +10,7 @@ import EventDetails from "@/components/EventDetails";
 import UserPendingRow from "@/components/UserPendingRow";
 import PendingCounter from "@/components/PendingCounter";
 import ParticipationConfirmation from "@/components/ParticipationConfirmation";
-import LoadingAnimation from "@/components/LoadingAnimation";*/
+import LoadingAnimation from "../components/LoadingAnimation";
 
 type InputProps = {
   extra: Object,
@@ -19,7 +19,7 @@ type InputProps = {
 }
 
 export default function HomeScreen({extra, stacked, back}: InputProps) {
-  /*const { apiToken, setApiToken, apiURL, user, setUser, setFcmToken } = useGlobalContext();
+  const { apiToken,apiURL, user } = useGlobalContext();
   const [ events, setEvents ] = useState<Array<Object>>([]);
   const [ hasEvents, setHasEvent ] = useState<Boolean>(false);
   const [ hasPendingEvent, setHasPendingEvent] = useState<Boolean | null>(false);
@@ -43,62 +43,23 @@ export default function HomeScreen({extra, stacked, back}: InputProps) {
   const [ hasAlreadyAnswered, setHasAlreadyAnswered ] = useState<boolean>(false);
   const [ currentStatus, setCurrentStatus ] = useState<number>(0);
 
-  /*useEffect(() => {
-    const fetchApiToken = async () => {
-      if (!apiToken) {
-        try {
-          console.log("NO API TOKEN FOUND, so checking with firebase")
-          const { isAuthenticated, firebaseToken } = await checkUserAuthentication();
+  useEffect(() => {
+    const response = await fetch(apiURL + "events", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": "Bearer " + apiToken
+      },
+    });
 
-          if (isAuthenticated && firebaseToken) {
-            const response = await fetch(apiURL + "auth", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify({
-                firebase_token: firebaseToken,
-              }),
-            });
+    const data = await response.json();
 
-            const data = await response.json();
-
-            if (response.ok && data) {
-              setApiToken(data.token);
-              setUser(data.user)
-              console.log("API TOKEN: ", data.token, "USER: ", user, data.user)
-            } else {
-              console.error("Failed to refresh API token:", data.message);
-            }
-          }
-        } catch (error) {
-          console.error("Error during API token refresh:", error);
-        }
-        console.log("---------------")
-      } else {
-        console.log("GETTING EVENTS")
-        const response = await fetch(apiURL + "events", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "Authorization": "Bearer " + apiToken
-          },
-        });
-
-        const data = await response.json();
-        console.log(data)
-        console.log("---------------")
-        if (response.ok && data) {
-          setEvents(data)
-          setHasEvent(true)
-        }
-      }
-    };
-
-    fetchApiToken();
-  }, [apiToken, setApiToken]);
+    if (response.ok && data) {
+      setEvents(data)
+      setHasEvent(true)
+    }
+  }, []);
 
   useEffect(() => {
     events.forEach((event: Object) => {
@@ -191,7 +152,6 @@ export default function HomeScreen({extra, stacked, back}: InputProps) {
   }
 
   const saveEvent = async () => {
-    console.log("SAVING EVENT")
     const response = await fetch(apiURL + "event", {
       method: "POST",
       headers: {
@@ -210,8 +170,6 @@ export default function HomeScreen({extra, stacked, back}: InputProps) {
     const data = await response.json();
 
     if (response.ok && data) {
-      console.log(data)
-      console.log("---------------")
       handleSetCurrentEvent(data)
       Animated.timing(secondaryHorizontal, {
         toValue: -Dimensions.get("window").width,
@@ -250,7 +208,6 @@ export default function HomeScreen({extra, stacked, back}: InputProps) {
   }
 
   const finishEvent = async () => {
-    console.log("FINISHING EVENT")
     const response = await fetch(apiURL + "event/" + currentEvent.id + "/finish", {
       method: "POST",
       headers: {
@@ -263,8 +220,6 @@ export default function HomeScreen({extra, stacked, back}: InputProps) {
     const data = await response.json();
 
     if (response.ok && data) {
-      console.log(data)
-      console.log("---------------")
       setCurrentEvent(data.event)
       setEvents(data.events)
       setHasPendingEvent(false)
@@ -319,7 +274,6 @@ export default function HomeScreen({extra, stacked, back}: InputProps) {
   }
 
   const handleActivate = async () => {
-    console.log("ACTIVATING EVENT")
     const response = await fetch(apiURL + "event/" + currentEvent.id + "/activate", {
       method: "POST",
       headers: {
@@ -335,11 +289,9 @@ export default function HomeScreen({extra, stacked, back}: InputProps) {
       setCurrentEvent(data.event)
     }
 
-    console.log(data)
   }
 
   const deleteEvent = async () => {
-    console.log("DELETING EVENT")
     const response = await fetch(apiURL + "event/" + currentEvent.id, {
       method: "DELETE",
       headers: {
@@ -352,8 +304,6 @@ export default function HomeScreen({extra, stacked, back}: InputProps) {
     const data = await response.json();
 
     if (response.ok && data) {
-      console.log(data)
-      console.log("---------------")
       setEvents(data.events)
       handleBack()
     }
@@ -480,12 +430,7 @@ export default function HomeScreen({extra, stacked, back}: InputProps) {
             </View>
         </Animated.View>
       </View>
-  );*/
-  return (
-    <View style={[styles.wrapper, extra]}>
-        <Text style={{fontFamily: "Menlo", color: "#ffffff"}} selectable>SAR2 Firebase Notifications</Text>
-    </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
