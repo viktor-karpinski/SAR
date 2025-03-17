@@ -1,8 +1,8 @@
 import { Animated, Dimensions, Image, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useGlobalContext } from "../context"; 
 import { useEffect, useRef, useState } from "react";
-import LargeButton from "@/components/LargeButton";
-import PastEventRow from "@/components/PastEventRow";
+import LargeButton from "../components/LargeButton";
+import PastEventRow from "../components/PastEventRow";
 import BackButton from "../components/BackButton";
 import Input from "../components/Input";
 import TextArea from "../components/TextArea";
