@@ -13,19 +13,19 @@ const PendingCounter = ({confirmed, declined, waiting} : Props) => {
                 <Text style={styles.text}>
                     {`${confirmed}`}
                 </Text>
-                <Image source={require("../assets/images/confirmed.png")} style={styles.image} />
+                <Image source={require("../assets/confirmed.png")} style={styles.image} />
             </View>
             <View style={styles.wrapper}>
                 <Text style={styles.text}>
                     {`${waiting}`}
                 </Text>
-                <Image source={require("../assets/images/waiting.png")} style={styles.image} />
+                <Image source={require("../assets/waiting.png")} style={styles.image} />
             </View>
             <View style={styles.wrapper}>
                 <Text style={styles.text}>
                     {`${declined}`}
                 </Text>
-                <Image source={require("../assets/images/declined.png")} style={styles.image} />
+                <Image source={require("../assets/declined.png")} style={styles.image} />
             </View>
         </View>
     )
