@@ -5,7 +5,7 @@ import LargeButton from "@/components/LargeButton";
 import PastEventRow from "@/components/PastEventRow";
 import BackButton from "../components/BackButton";
 import Input from "../components/Input";
-import TextArea from "@/components/TextArea";
+import TextArea from "../components/TextArea";
 import EventDetails from "../components/EventDetails";
 import UserPendingRow from "../components/UserPendingRow";
 import PendingCounter from "../components/PendingCounter";
