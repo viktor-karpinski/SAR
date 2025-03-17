@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-type InputProps = {
+type Props = {
   label: string;
   highlight: string;
   onPress: () => void;
@@ -14,7 +14,7 @@ export default function Input({
     highlight,
     onPress,
     extraStyle
-  }: InputProps) {
+  }: Props) {
       
     return (
         <TouchableOpacity style={[styles.button, extraStyle]} onPress={onPress}>

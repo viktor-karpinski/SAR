@@ -1,7 +1,7 @@
 import React, { useState, memo } from "react";
 import { TextInput, StyleSheet, View, Text, Image } from "react-native";
 
-type InputProps = {
+type Props = {
   label: string;
   placeholder: string;
   secondPlaceholder?: string;
@@ -42,7 +42,7 @@ const Input = memo(
     extraStyle,
     error,
     autoCorrect = false,
-  }: InputProps) => {
+  }: Props) => {
     const imageSource = error ? iconMapping["error"] : iconMapping[icon];
     const [width, setWidth] = useState(0);
     const [isPasswordVisible, setIsPasswordVisible] = useState(icon != 'password');

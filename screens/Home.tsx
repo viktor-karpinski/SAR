@@ -12,13 +12,13 @@ import PendingCounter from "../components/PendingCounter";
 import ParticipationConfirmation from "../components/ParticipationConfirmation";
 import LoadingAnimation from "../components/LoadingAnimation";
 
-type InputProps = {
+type Props = {
   extra: Object,
   stacked?: () => void;
   back?: () => void;
 }
 
-export default function HomeScreen({extra, stacked, back}: InputProps) {
+export default function HomeScreen({extra, stacked, back}: Props) {
   const { apiToken,apiURL, user } = useGlobalContext();
   const [ events, setEvents ] = useState<Array<Object>>([]);
   const [ hasEvents, setHasEvent ] = useState<Boolean>(false);

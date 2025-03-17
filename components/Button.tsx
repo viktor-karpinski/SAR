@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
-type InputProps = {
+type Props = {
   label: string;
   onPress: () => void;
   extraStyle: Object;
@@ -12,7 +12,7 @@ export default function Button({
     label,
     onPress,
     extraStyle
-  }: InputProps) {
+  }: Props) {
       
     return (
         <TouchableOpacity style={[styles.button, extraStyle]} onPress={onPress}>

@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
-type InputProps = {
+type Props = {
   onPress: () => void;
   extraStyle: Object;
   isVertical?: Boolean;
@@ -13,7 +13,7 @@ export default function BackButton({
     onPress,
     extraStyle,
     isVertical
-  }: InputProps) {
+  }: Props) {
       
     return (
         <TouchableOpacity style={[styles.button, extraStyle]} onPress={onPress}>
