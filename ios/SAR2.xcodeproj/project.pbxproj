@@ -12,6 +12,10 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		940B85D92D84599800A4FC20 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940B85D82D84599800A4FC20 /* GoogleService-Info.plist */; };
 		940E377E2D84DBE300188431 /* siren_alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = 940E377D2D84DBE300188431 /* siren_alarm.caf */; };
+		941D92CB2D89BF1100C4E332 /* ContrailOne.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 941D92C72D89BF1100C4E332 /* ContrailOne.ttf */; };
+		941D92CC2D89BF1100C4E332 /* BeirutiRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 941D92C62D89BF1100C4E332 /* BeirutiRegular.ttf */; };
+		941D92CD2D89BF1100C4E332 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 941D92C92D89BF1100C4E332 /* SpaceMono-Regular.ttf */; };
+		941D92CE2D89BF1100C4E332 /* Hammersmith.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 941D92C82D89BF1100C4E332 /* Hammersmith.ttf */; };
 		9578FDC10CB5F8E4222C7B43 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		B50C537D05ADF85A444151D1 /* libPods-SAR2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3E82818A3485724433DEFF /* libPods-SAR2.a */; };
 /* End PBXBuildFile section */
@@ -26,6 +30,10 @@
 		940B85D82D84599800A4FC20 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		940B85DA2D8459AA00A4FC20 /* SAR2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SAR2.entitlements; path = SAR2/SAR2.entitlements; sourceTree = "<group>"; };
 		940E377D2D84DBE300188431 /* siren_alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = siren_alarm.caf; sourceTree = "<group>"; };
+		941D92C62D89BF1100C4E332 /* BeirutiRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeirutiRegular.ttf; sourceTree = "<group>"; };
+		941D92C72D89BF1100C4E332 /* ContrailOne.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ContrailOne.ttf; sourceTree = "<group>"; };
+		941D92C82D89BF1100C4E332 /* Hammersmith.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Hammersmith.ttf; sourceTree = "<group>"; };
+		941D92C92D89BF1100C4E332 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Regular.ttf"; sourceTree = "<group>"; };
 		AB3E82818A3485724433DEFF /* libPods-SAR2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SAR2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE952AE73D3E816D0FE81A8A /* Pods-SAR2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SAR2.release.xcconfig"; path = "Target Support Files/Pods-SAR2/Pods-SAR2.release.xcconfig"; sourceTree = "<group>"; };
 		D668C0BCE57D732E2664C5F3 /* Pods-SAR2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SAR2.debug.xcconfig"; path = "Target Support Files/Pods-SAR2/Pods-SAR2.debug.xcconfig"; sourceTree = "<group>"; };
@@ -83,6 +91,7 @@
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
 				940B85D82D84599800A4FC20 /* GoogleService-Info.plist */,
 				940E377D2D84DBE300188431 /* siren_alarm.caf */,
+				941D92CA2D89BF1100C4E332 /* fonts */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -95,6 +104,17 @@
 				13B07F961A680F5B00A75B9A /* SAR2.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		941D92CA2D89BF1100C4E332 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				941D92C62D89BF1100C4E332 /* BeirutiRegular.ttf */,
+				941D92C72D89BF1100C4E332 /* ContrailOne.ttf */,
+				941D92C82D89BF1100C4E332 /* Hammersmith.ttf */,
+				941D92C92D89BF1100C4E332 /* SpaceMono-Regular.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -172,6 +192,10 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				940B85D92D84599800A4FC20 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				941D92CB2D89BF1100C4E332 /* ContrailOne.ttf in Resources */,
+				941D92CC2D89BF1100C4E332 /* BeirutiRegular.ttf in Resources */,
+				941D92CD2D89BF1100C4E332 /* SpaceMono-Regular.ttf in Resources */,
+				941D92CE2D89BF1100C4E332 /* Hammersmith.ttf in Resources */,
 				9578FDC10CB5F8E4222C7B43 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,7 +310,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SAR2/SAR2.entitlements;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 83B8QR7FZL;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -297,7 +321,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -319,7 +343,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SAR2/SAR2.entitlements;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 83B8QR7FZL;
 				INFOPLIST_FILE = SAR2/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SAR;
@@ -328,7 +352,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -422,10 +446,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -506,10 +527,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;

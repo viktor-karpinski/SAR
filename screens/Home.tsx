@@ -364,7 +364,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
 
         <Animated.View style={[styles.container, {top: secondaryVertical, left: secondaryHorizontal, opacity: secondaryOpacity}, styles.secondaryContainer]}>
             <View style={[{width: "50%",}]}>
-              <BackButton onPress={handleBack} extraStyle={{zIndex: 2}} isVertical={true} />
+              <BackButton onPress={handleBack} extraStyle={{zIndex: 2, marginLeft: 20}} isVertical={true} />
               <ScrollView contentContainerStyle={{padding: 20, width: "100%", marginTop: 120, zIndex: 1, justifyContent: "center", flex: 1, paddingBottom: 120}}>
                 <Input 
                 label="Kde? Adresa?" 
@@ -394,7 +394,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
             </View>
 
             <View style={[styles.containerWrapper, {paddingBottom: 100}]}>
-              <BackButton onPress={handleBack} extraStyle={{}} isVertical={true} />
+              <BackButton onPress={handleBack} extraStyle={{marginLeft: 20}} isVertical={true} />
 
               <View style={{paddingInline: 20, width: "100%"}}>
                 <EventDetails event={currentEvent} />

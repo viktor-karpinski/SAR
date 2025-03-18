@@ -11,19 +11,23 @@ type Props = {
 };
 
 export default function Auth({authVertical, handleAuth}: Props) {
-    const { setApiToken, firebaseToken, apiURL, setUser } = useGlobalContext(); 
+    const { setApiToken, setFirebaseToken, firebaseToken, apiURL, setUser } = useGlobalContext(); 
     const authHorizontal = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         checkAuth()
     }, [])
+
+    useEffect(() => {
+        Alert.alert('getting api automaitcally')
+        getApiToken()
+    }, [firebaseToken])
     
     const checkAuth = async () => {
-        Alert.alert('FROM CHECK AUTH')
         let authenticated = await checkUserAuthentication();
 
         if (authenticated.isAuthenticated) {
-            getApiToken()
+            setFirebaseToken(authenticated.firebaseToken)
         } 
     }
     
@@ -67,8 +71,7 @@ export default function Auth({authVertical, handleAuth}: Props) {
     }
 
     const handleAuthSuccess = () => {
-        Alert.alert("GETTING API TOKEN")
-        getApiToken()
+        //getApiToken()
     }
 
     return (

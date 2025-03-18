@@ -14,7 +14,7 @@ type Props = {
 };
 
 const Main = ({navVertical, appVertical, handleLogout}: Props) => {
-    const {apiURL } = useGlobalContext(); 
+    const {apiURL, apiToken } = useGlobalContext(); 
     const [recievedToken, setRecievedToken] = useState("");
     const appHorizontal = useRef(new Animated.Value(0)).current;
     const [currentTab, setCurrentTab] = useState(0);
@@ -56,8 +56,9 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
             const response = await fetch(apiURL + 'store-fcm-token', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer 1|0rVKv2hDe7zcXXYnTNU5khaZzpRUSP9uO11InQZ14edc10a1',
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "Authorization": "Bearer " + apiToken
             },
             body: JSON.stringify({ 
                 token: token 
