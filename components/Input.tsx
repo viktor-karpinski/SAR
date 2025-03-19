@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
 
     paddingLeft: 75,
-    fontFamily: "Hammersmith",
+    fontFamily: "Hammersmith One",
     color: "#ffffff",
     width: "100%",
     borderRadius: 4,

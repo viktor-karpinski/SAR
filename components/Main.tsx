@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Alert, Animated, Dimensions, StyleSheet } from "react-native";
+import { Alert, Animated, Dimensions } from "react-native";
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import NavBar from "./NavBar";
 import { useGlobalContext } from "./../context";
@@ -18,16 +18,15 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
     const [recievedToken, setRecievedToken] = useState("");
     const appHorizontal = useRef(new Animated.Value(0)).current;
     const [currentTab, setCurrentTab] = useState(0);
+    const homeScreenRef = useRef<any>(null);
 
     useEffect(() => {      
         requestUserPermission();
 
         const unsubscribe = messaging().onMessage(
             async (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
-            Alert.alert(
-                'New Notification',
-                JSON.stringify(remoteMessage.notification)
-            );
+                // LOAD EVENTS
+                getEvents()
             }
         );
 
@@ -43,7 +42,6 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
             authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
         if (enabled) {
-            console.log('Notification permission status:', authStatus);
             await getFcmToken();
         }
     };
@@ -71,6 +69,23 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
             //Alert.alert('Failed to get FCM token: ' + error);
         }
     };
+
+    const getEvents = async () => {
+        const response = await fetch(apiURL + "events", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Authorization": "Bearer " + apiToken
+          },
+        });
+    
+        const data = await response.json();
+    
+        if (response.ok && data) {
+          
+        }
+      }
 
     const handleTabSwitch = () => {
         Animated.timing(appHorizontal, {
@@ -137,23 +152,11 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
                     width: Dimensions.get("screen").width,
                     height: Dimensions.get("screen").height,
                 }}
-                onLogOut={handleLogout}
+                onLogOut={localHandleLogout}
                 /> 
             </Animated.View>
         </>
     )
 }
-
-const styles = StyleSheet.create({
-  appContainer: {
-    flex: 1,
-    flexDirection: "row",
-    overflow: "hidden",
-    alignItems: "flex-start",
-    width: Dimensions.get("window").width * 3,
-    position: "absolute",
-    zIndex: 0,
-  }
-});
 
 export default Main

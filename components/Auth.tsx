@@ -1,4 +1,4 @@
-import { Alert, Animated, Dimensions } from 'react-native';
+import { Animated, Dimensions } from 'react-native';
 import { useEffect, useRef } from 'react';
 import { useGlobalContext } from "./../context"; 
 import checkUserAuthentication from './../checkUserAuthentication'
@@ -19,7 +19,6 @@ export default function Auth({authVertical, handleAuth}: Props) {
     }, [])
 
     useEffect(() => {
-        Alert.alert('getting api automaitcally')
         getApiToken()
     }, [firebaseToken])
     

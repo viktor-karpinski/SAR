@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 20,
-        fontFamily: "BeirutiRegular",
+        fontFamily: "Beiruti",
         letterSpacing: 1.4,
         color: "#ffffff"
     },

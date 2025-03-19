@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
 type Props = {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 26,
         textAlign: "center",
-        fontFamily: "ContrailOne",
+        fontFamily: "Contrail One",
         color: "#ffffff",
         marginLeft: 15,
         marginRight: 30,

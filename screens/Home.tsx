@@ -352,7 +352,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
                   )
                 ) : (
                   <View style={{height: Dimensions.get("window").height - 593, justifyContent: "center"}}>
-                    <Text style={{ color: "#fff", textAlign: "center", fontFamily: "BeirutiRegular", fontSize: 20, letterSpacing: 0.8, }}>
+                    <Text style={{ color: "#fff", textAlign: "center", fontFamily: "Beiruti", fontSize: 20, letterSpacing: 0.8, }}>
                       zatiaľ neexistujú žiadne minulé zásahy...
                     </Text>
                   </View>
@@ -385,7 +385,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
                 <LargeButton 
                 noIcon={true} 
                 label="Oznámiť všetkým" 
-                extraStyle={{fontFamily: "Hammersmith", fontSize: 20,}} 
+                extraStyle={{fontFamily: "Hammersmith One", fontSize: 20,}} 
                 isPending={false} 
                 onPress={handleEventSave} 
                 />
@@ -424,16 +424,16 @@ export default function HomeScreen({extra, stacked, back}: Props) {
                       <UserPendingRow key={index} user={user} />
                     ))
                   ) : (
-                    <Text style={{ color: "#fff", textAlign: "center", marginTop: 20, fontFamily: "Hammersmith", fontSize: 20, }}>
+                    <Text style={{ color: "#fff", textAlign: "center", marginTop: 20, fontFamily: "Hammersmith One", fontSize: 20, }}>
                       Nie sú k dispozícii žiadni používatelia
                     </Text>
                   )}
                 </View>
               </ScrollView>
 
-              {(currentEvent.user_id == user.id && currentEvent.till != null) && <LargeButton label="Vymazať Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={deleteEvent} />}
-              {(currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status != 'V Čakaní') && <LargeButton label="Ukončiť Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={handleFinishEvent} />}
-              {(currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status == 'V Čakaní') && <LargeButton label="Aktivovat Zásah" isPending={false} noIcon={true} extraStyle={{fontFamily: "Hammersmith", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={handleActivate} />}
+              {(currentEvent.user_id == user.id && currentEvent.till != null) && <LargeButton label="Vymazať Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={deleteEvent} />}
+              {(currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status != 'V Čakaní') && <LargeButton label="Ukončiť Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={handleFinishEvent} />}
+              {(currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status == 'V Čakaní') && <LargeButton label="Aktivovat Zásah" isPending={false} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={handleActivate} />}
               {(currentEvent.user_id != user.id && currentEvent.till == null) && <ParticipationConfirmation event={currentEvent.id} confirmation={handleConfirmation} hasAlreadyAnswered={hasAlreadyAnswered} status={currentStatus} />}
             </View>
         </Animated.View>
@@ -459,7 +459,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     letterSpacing: 1.76,
     color: "#ffffff",
-    fontFamily: "BeirutiRegular",
+    fontFamily: "Beiruti",
     alignSelf: "flex-start",
     marginLeft: 20,
   },

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     
       text: {
         fontSize: 25,
-        fontFamily: "BeirutiRegular",
+        fontFamily: "Beiruti",
         color: "#ffffff",
       }
 })

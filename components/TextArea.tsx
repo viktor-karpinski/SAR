@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#ffffff",
     marginBottom: 8,
-    fontFamily: "Hammersmith",
+    fontFamily: "Hammersmith One",
   },
   textAreaWrapper: {
     backgroundColor: "rgba(25, 25, 25, 0.5)",
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   textArea: {
     fontSize: 18,
     color: "#ffffff",
-    fontFamily: "Hammersmith",
+    fontFamily: "Hammersmith One",
     textAlignVertical: "top", 
     lineHeight: 24,
     height: 100

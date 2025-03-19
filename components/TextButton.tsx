@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 18,
         textAlign: "center",
-        fontFamily: "Hammersmith",
+        fontFamily: "Hammersmith One",
         color: "#ffffff"
     },
 

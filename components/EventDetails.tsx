@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 18,
-        fontFamily: "Hammersmith",
+        fontFamily: "Hammersmith One",
         color: "#ffffff"
     },
 
