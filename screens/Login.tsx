@@ -17,8 +17,8 @@ type InputProps = {
 
 export default function LoginScreen({ extra, onSignupRedirect, onAuthSuccess }: InputProps) {
   const { setFirebaseToken } = useGlobalContext(); 
-  const [email, setEmail] = useState("viktor@karpinski.com");
-  const [password, setPassword] = useState("password");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Object>({});
 
@@ -47,8 +47,13 @@ export default function LoginScreen({ extra, onSignupRedirect, onAuthSuccess }: 
         const token = await user.getIdToken();
         setFirebaseToken(token)
 
-        if (onAuthSuccess)
+        if (onAuthSuccess) {
           onAuthSuccess()
+          setTimeout(() => {
+            setEmail("")
+            setPassword("")
+          }, 1000)
+        }
       }
     } catch (error: any) {
       setErrors({

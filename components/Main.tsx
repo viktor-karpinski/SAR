@@ -114,8 +114,10 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
     }
 
     const localHandleLogout = () => {
-        setCurrentTab(0)
-        handleTabSwitch()
+        setTimeout(() => {
+            setCurrentTab(0)
+            handleTabSwitch()
+        }, 1000)
         if (handleLogout)
             handleLogout()
     }

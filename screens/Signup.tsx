@@ -65,7 +65,8 @@ export default function SignupScreen({ extra, onLoginRedirect }: InputProps) {
       const data = await response.json();
 
       if (response.ok) {
-        setFirebaseToken(data.firebase_token)
+        //setFirebaseToken(data.firebase_token)
+        handleLoginRedirect()
       } else {
         console.log(data)
         setErrors(data.errors)

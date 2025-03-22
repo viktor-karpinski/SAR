@@ -19,7 +19,7 @@ type Props = {
 }
 
 export default function HomeScreen({extra, stacked, back}: Props) {
-  const { apiToken,apiURL, user, events, setEvents, hasEvents, setHasEvent, stackHome, setStackHome } = useGlobalContext();
+  const { apiToken, apiURL, user, events, setEvents, hasEvents, setHasEvent, stackHome, setStackHome } = useGlobalContext();
   const [ hasPendingEvent, setHasPendingEvent] = useState<Boolean | null>(false);
   const mainVertical = useRef(new Animated.Value(0)).current;
   const mainOpacity = useRef(new Animated.Value(1)).current;
@@ -63,7 +63,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
        isPending = true
        handleSetCurrentEvent(event)
        setTimeout(() => {
-        getPendingEvent()
+        getPendingEvent(event)
        }, 1000)
       }
     })
@@ -92,8 +92,8 @@ export default function HomeScreen({extra, stacked, back}: Props) {
     }
   }
 
-  const getPendingEvent = async () => {
-      const response = await fetch(apiURL + "event/" + currentEvent.id, {
+  const getPendingEvent = async (event) => {
+      const response = await fetch(apiURL + "event/" + event.id, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -105,14 +105,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
       const data = await response.json();
   
       if (response.ok && data) {
-        Alert.alert(data)
         handleSetCurrentEvent(data)
-
-        if (hasPendingEvent) {
-          setTimeout(() => {
-            getPendingEvent()
-          }, 1000)
-        }
       }
   }
 
@@ -218,6 +211,11 @@ export default function HomeScreen({extra, stacked, back}: Props) {
 
     if (response.ok && data) {
       handleSetCurrentEvent(data)
+      setTimeout(() => {
+        getPendingEvent(data)
+        setLocation("")
+        setDescription("")
+      }, 1000)
       Animated.timing(secondaryHorizontal, {
         toValue: -Dimensions.get("window").width,
         duration: 500,
@@ -228,8 +226,17 @@ export default function HomeScreen({extra, stacked, back}: Props) {
 
   const handleSetCurrentEvent = (data : Object) => {
     setCurrentEvent(data)
-    setHasPendingEvent(true)
-    resetPendingUsers(data)
+    if (data.till == null) {
+      setHasPendingEvent(true)
+      resetPendingUsers(data)
+      setTimeout(() => {
+        getPendingEvent(data)
+      }, 3000)
+    } else {
+      handleFinishEvent()
+      setHasPendingEvent(false)
+      getEvents()
+    }
   }
 
   const resetPendingUsers = (data : Object) => {
@@ -360,9 +367,9 @@ export default function HomeScreen({extra, stacked, back}: Props) {
       <View style={[styles.wrapper, extra]}>
         <Animated.View style={[styles.container, {top: mainVertical, opacity: mainOpacity}]}>
           <Image source={require("./../assets/sar-logo.png")} style={styles.logo} />
-          <View style={{ padding: 20, width: "100%", marginTop: 30 }}>
+          {(user.isOrganiser || hasPendingEvent) && <View style={{ padding: 20, width: "100%", marginTop: 30 }}>
             <LargeButton label="Nový zásah" extraStyle={{}} onPress={handleEvent} isPending={hasPendingEvent} />
-          </View>
+          </View>}
           <Text style={[styles.heading, {marginTop: 40}]}>
             Minulé Zásahy
           </Text>
