@@ -27,6 +27,12 @@ export default function SignupScreen({ extra, onLoginRedirect }: InputProps) {
 
   const handleLoginRedirect = () => {
     if (onLoginRedirect) {
+      setTimeout(() => {
+        setName("")
+        setEmail("")
+        setPhoneNumber("")
+        setPassword("")
+      }, 1000)
       onLoginRedirect();
     }
   };

@@ -463,7 +463,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
 
               <View style={styles.hr}></View>
 
-              <ScrollView contentContainerStyle={{width: Dimensions.get("window").width, padding: 20,}}>
+              <ScrollView contentContainerStyle={{width: Dimensions.get("window").width, padding: 20, marginBottom: 20, paddingBottom: 0}}>
                 <View style={{ width: "100%" }}>
                   {currentEvent?.users?.length > 0 ? (
                     currentEvent.users.map((user, index) => (

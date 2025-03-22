@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     width: "100%",
     marginTop: 20,
+    paddingBottom: 120,
   },
 
   usersContainer: {
