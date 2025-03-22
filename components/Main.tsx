@@ -14,11 +14,10 @@ type Props = {
 };
 
 const Main = ({navVertical, appVertical, handleLogout}: Props) => {
-    const {apiURL, apiToken } = useGlobalContext(); 
+    const {apiURL, apiToken, setEvents, setHasEvent, setStackHome } = useGlobalContext(); 
     const [recievedToken, setRecievedToken] = useState("");
     const appHorizontal = useRef(new Animated.Value(0)).current;
     const [currentTab, setCurrentTab] = useState(0);
-    const homeScreenRef = useRef<any>(null);
 
     useEffect(() => {      
         requestUserPermission();
@@ -83,7 +82,10 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
         const data = await response.json();
     
         if (response.ok && data) {
-          
+            setEvents(data)
+            setHasEvent(true)
+            handleStackedHomeScreen()
+            setStackHome(true)
         }
       }
 

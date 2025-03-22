@@ -1,4 +1,4 @@
-import { Animated, Dimensions, Image, StyleSheet, Text, View, ScrollView } from "react-native";
+import { Animated, Dimensions, Image, StyleSheet, Text, View, ScrollView, Alert } from "react-native";
 import { useGlobalContext } from "../context"; 
 import { useEffect, useRef, useState } from "react";
 import LargeButton from "../components/LargeButton";
@@ -19,9 +19,7 @@ type Props = {
 }
 
 export default function HomeScreen({extra, stacked, back}: Props) {
-  const { apiToken,apiURL, user } = useGlobalContext();
-  const [ events, setEvents ] = useState<Array<Object>>([]);
-  const [ hasEvents, setHasEvent ] = useState<Boolean>(false);
+  const { apiToken,apiURL, user, events, setEvents, hasEvents, setHasEvent, stackHome, setStackHome } = useGlobalContext();
   const [ hasPendingEvent, setHasPendingEvent] = useState<Boolean | null>(false);
   const mainVertical = useRef(new Animated.Value(0)).current;
   const mainOpacity = useRef(new Animated.Value(1)).current;
@@ -52,11 +50,28 @@ export default function HomeScreen({extra, stacked, back}: Props) {
   }, []);
 
   useEffect(() => {
+    if (stackHome) {
+      handleEvent()
+      setStackHome(false)
+    }
+  }, [stackHome])
+
+  useEffect(() => {
+    let isPending = false
     events.forEach((event: Object) => {
       if (!event.till) {
+       isPending = true
        handleSetCurrentEvent(event)
+       setTimeout(() => {
+        getPendingEvent()
+       }, 1000)
       }
     })
+
+    if (!isPending) {
+      setHasPendingEvent(false)
+      handleBack()
+    }
   }, [events])
 
   const getEvents = async () => {
@@ -75,6 +90,30 @@ export default function HomeScreen({extra, stacked, back}: Props) {
       setEvents(data)
       setHasEvent(true)
     }
+  }
+
+  const getPendingEvent = async () => {
+      const response = await fetch(apiURL + "event/" + currentEvent.id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": "Bearer " + apiToken
+        },
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok && data) {
+        Alert.alert(data)
+        handleSetCurrentEvent(data)
+
+        if (hasPendingEvent) {
+          setTimeout(() => {
+            getPendingEvent()
+          }, 1000)
+        }
+      }
   }
 
   const handleEvent = () => {

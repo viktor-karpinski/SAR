@@ -12,6 +12,12 @@ type GlobalContextType = {
   apiURL: string;
   fcmToken: string | null;
   setFcmToken: (token: string | null) => void;
+  events: Array<Object> | null;
+  setEvents: (events: Array<object>) => void;
+  hasEvents: Boolean | null;
+  setHasEvent: (hasEvents: Boolean) => void;
+  stackHome: Boolean | null;
+  setStackHome: (hasEvents: Boolean) => void;
 };
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -23,6 +29,9 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [user, setUser] = useState<object>({});
   const apiURL = "https://sar.viktorkarpinski.com/api/";
   const [fcmToken, setFcmToken] = useState<string | null>(null);
+  const [ events, setEvents ] = useState<Array<Object>>([]);
+  const [ hasEvents, setHasEvent ] = useState<Boolean>(false);
+  const [ stackHome, setStackHome ] = useState<Boolean>(false);
 
   // In non-Expo projects, ensure your fonts are added and linked properly via your native config.
   // Similarly, manage your splash screen via react-native-splash-screen or similar if needed.
@@ -41,6 +50,12 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         apiURL,
         fcmToken,
         setFcmToken,
+        events, 
+        setEvents,
+        hasEvents, 
+        setHasEvent,
+        stackHome,
+        setStackHome
       }}
     >
       {children}
