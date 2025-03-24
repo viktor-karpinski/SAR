@@ -6,11 +6,12 @@ import PastEventRow from "../components/PastEventRow";
 import BackButton from "../components/BackButton";
 import Input from "../components/Input";
 import TextArea from "../components/TextArea";
-import EventDetails from "../components/EventDetails";
+import EventDetails from "./EventDetails";
 import UserPendingRow from "../components/UserPendingRow";
 import PendingCounter from "../components/PendingCounter";
 import ParticipationConfirmation from "../components/ParticipationConfirmation";
 import LoadingAnimation from "../components/LoadingAnimation";
+import EventForm from "./EventForm";
 
 type Props = {
   extra: Object,
@@ -19,27 +20,13 @@ type Props = {
 }
 
 export default function HomeScreen({extra, stacked, back}: Props) {
-  const { apiToken, apiURL, user, events, setEvents, hasEvents, setHasEvent, stackHome, setStackHome } = useGlobalContext();
+  const { apiToken, apiURL, user, events, setEvents, hasEvents, setHasEvent, stackHome, setStackHome, currentEvent, setCurrentEvent } = useGlobalContext();
   const [ hasPendingEvent, setHasPendingEvent] = useState<Boolean | null>(false);
   const mainVertical = useRef(new Animated.Value(0)).current;
   const mainOpacity = useRef(new Animated.Value(1)).current;
   const secondaryOpacity = useRef(new Animated.Value(0)).current;
   const secondaryVertical = useRef(new Animated.Value(-Dimensions.get("window").height)).current
   const secondaryHorizontal = useRef(new Animated.Value(0)).current
-
-  const [ location, setLocation ] = useState<string>("");
-  const [ latitude, setLatitude ] = useState<string>("");
-  const [ longitude, setLongitude ] = useState<string>("");
-  const [ description, setDescription ] = useState<string>("");
-
-  const [ currentEvent, setCurrentEvent ] = useState<Object>({});
-
-  const [ wating, setWaiting ] = useState<number>(0);
-  const [ confirmed, setConfirmed ] = useState<number>(0);
-  const [ declined, setDeclined ] = useState<number>(0);
-
-  const [ hasAlreadyAnswered, setHasAlreadyAnswered ] = useState<boolean>(false);
-  const [ currentStatus, setCurrentStatus ] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,9 +59,6 @@ export default function HomeScreen({extra, stacked, back}: Props) {
       handleBack()
     } else {
       handleSetCurrentEvent(current)
-       setTimeout(() => {
-        getPendingEvent(current)
-       }, 1000)
     }
   }, [events])
 
@@ -111,6 +95,20 @@ export default function HomeScreen({extra, stacked, back}: Props) {
       if (response.ok && data) {
         handleSetCurrentEvent(data)
       }
+  }
+
+  const handleSetCurrentEvent = (data : Object) => {
+    if (data.till == null) {
+      setCurrentEvent(data)
+      setHasPendingEvent(true)
+      setTimeout(() => {
+        getPendingEvent(data)
+      }, 3000)
+    } else {
+      setHasPendingEvent(false)
+      getEvents()
+      handleBack()
+    }
   }
 
   const handleEvent = () => {
@@ -187,114 +185,16 @@ export default function HomeScreen({extra, stacked, back}: Props) {
     }
   }
 
-  const handleEventSave = () => {
-    try {
-      saveEvent()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const saveEvent = async () => {
-    const response = await fetch(apiURL + "event", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Authorization": "Bearer " + apiToken
-      },
-      body: JSON.stringify({
-        'address': location,
-        'lat': parseFloat(latitude),
-        'lon': parseFloat(longitude),
-        'description': description
-      })
-    });
-
-    const data = await response.json();
-
-    if (response.ok && data) {
-      handleSetCurrentEvent(data)
-      setTimeout(() => {
-        getPendingEvent(data)
-        setLocation("")
-        setDescription("")
-      }, 1000)
-      Animated.timing(secondaryHorizontal, {
-        toValue: -Dimensions.get("window").width,
-        duration: 500,
-        useNativeDriver: false,
-      }).start();
-    }
-  }
-
-  const handleSetCurrentEvent = (data : Object) => {
-    if (data.till == null) {
-      setCurrentEvent(data)
-      setHasPendingEvent(true)
-      resetPendingUsers(data)
-      setTimeout(() => {
-        getPendingEvent(data)
-      }, 3000)
-    } else {
-      handleFinishEvent()
-      setHasPendingEvent(false)
-      getEvents()
-      setCurrentStatus(0)
-      handleBack()
-    }
-  }
-
-  const resetPendingUsers = (data : Object) => {
-    let waiting = 0;
-    let confirmed = 0;
-    let declined = 0;
-
-    data.users.forEach((loopUser) => {
-      if (loopUser.user.id == user.id) {
-        if (loopUser.status != 0) {
-          setHasAlreadyAnswered(true)
-          setCurrentStatus(loopUser.status)
-        }
-      }
-      if (loopUser.status === 0) waiting++;
-      if (loopUser.status === 1) confirmed++;
-      if (loopUser.status === 2) declined++;
-    });
-
-    setWaiting(waiting);
-    setConfirmed(confirmed);
-    setDeclined(declined);
-  }
-
-  const finishEvent = async () => {
-    const response = await fetch(apiURL + "event/" + currentEvent.id + "/finish", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Authorization": "Bearer " + apiToken
-      },
-    });
-
-    const data = await response.json();
-
-    if (response.ok && data) {
-      setEvents(data.events)
-    }
-  }
-
-  const handleFinishEvent = () => {
-    finishEvent()
-  }
-
-  const handleConfirmation = (event : Object) => {
-    handleSetCurrentEvent(event)
+  const switchToEventDetails = () => {
+    Animated.timing(secondaryHorizontal, {
+      toValue: -Dimensions.get("window").width,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
   }
 
   const handlePastEventPressed = (event : Object) => {
     setCurrentEvent(event)
-    resetPendingUsers(event)
     Animated.timing(mainVertical, {
       toValue: Dimensions.get("window").height,
       duration: 500,
@@ -327,42 +227,6 @@ export default function HomeScreen({extra, stacked, back}: Props) {
 
     if (stacked) {
       stacked()
-    }
-  }
-
-  const handleActivate = async () => {
-    const response = await fetch(apiURL + "event/" + currentEvent.id + "/activate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Authorization": "Bearer " + apiToken
-      },
-    });
-
-    const data = await response.json();
-
-    if (response.ok && data) {
-      setCurrentEvent(data.event)
-    }
-
-  }
-
-  const deleteEvent = async () => {
-    const response = await fetch(apiURL + "event/" + currentEvent.id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Authorization": "Bearer " + apiToken
-      },
-    });
-
-    const data = await response.json();
-
-    if (response.ok && data) {
-      setEvents(data.events)
-      handleBack()
     }
   }
 
@@ -412,79 +276,8 @@ export default function HomeScreen({extra, stacked, back}: Props) {
         </Animated.View>
 
         <Animated.View style={[styles.container, {top: secondaryVertical, left: secondaryHorizontal, opacity: secondaryOpacity}, styles.secondaryContainer]}>
-            <View style={[{width: "50%",}]}>
-              <BackButton onPress={handleBack} extraStyle={{zIndex: 2, marginLeft: 20}} isVertical={true} />
-              <ScrollView contentContainerStyle={{padding: 20, width: "100%", marginTop: 120, zIndex: 1, justifyContent: "center", flex: 1, paddingBottom: 120}}>
-                <Input 
-                label="Kde? Adresa?" 
-                placeholder="Brezovica 471, 028 01 Brezovica" 
-                icon="location" value={location} 
-                onChangeText={setLocation} 
-                extraStyle={{marginBottom: 40}} 
-                />
-
-                <TextArea 
-                label="Popis situácie" 
-                placeholder="povodeň, pohyb lavíny, zmiznutie osoby." 
-                value={description} 
-                onChangeText={setDescription} 
-                extraStyle={{marginBottom: 40}} 
-                />
-
-                <LargeButton 
-                noIcon={true} 
-                label="Oznámiť všetkým" 
-                extraStyle={{fontFamily: "Hammersmith One", fontSize: 20,}} 
-                isPending={false} 
-                onPress={handleEventSave} 
-                />
-              </ScrollView>
-              
-            </View>
-
-            <View style={[styles.containerWrapper, {paddingBottom: 100}]}>
-              <BackButton onPress={handleBack} extraStyle={{marginLeft: 20}} isVertical={true} />
-
-              <View style={{paddingInline: 20, width: "100%"}}>
-                <EventDetails event={currentEvent} />
-              </View>
-
-              <View style={{
-                  width: "100%", 
-                  alignItems: "center", 
-                  justifyContent: "space-between", 
-                  flexDirection: "row",
-                  marginTop: 40,
-                  paddingRight: 20,
-                }}>
-                <Text style={styles.heading}>
-                  Zoznam členov
-                </Text>
-
-                <PendingCounter waiting={wating} confirmed={confirmed} declined={declined} />
-              </View>
-
-              <View style={styles.hr}></View>
-
-              <ScrollView contentContainerStyle={{width: Dimensions.get("window").width, padding: 20, marginBottom: 20, paddingBottom: 0}}>
-                <View style={{ width: "100%" }}>
-                  {currentEvent?.users?.length > 0 ? (
-                    currentEvent.users.map((user, index) => (
-                      <UserPendingRow key={index} user={user} />
-                    ))
-                  ) : (
-                    <Text style={{ color: "#fff", textAlign: "center", marginTop: 20, fontFamily: "Hammersmith One", fontSize: 20, }}>
-                      Nie sú k dispozícii žiadni používatelia
-                    </Text>
-                  )}
-                </View>
-              </ScrollView>
-              <View style={{height: 20, width: "100%"}}></View>
-              {(currentEvent.user_id == user.id && currentEvent.till != null) && <LargeButton label="Vymazať Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={deleteEvent} />}
-              {(currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status != 'V Čakaní') && <LargeButton label="Ukončiť Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={handleFinishEvent} />}
-              {(currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status == 'V Čakaní') && <LargeButton label="Aktivovat Zásah" isPending={false} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={handleActivate} />}
-              {(currentEvent.user_id != user.id && currentEvent.till == null) && <ParticipationConfirmation event={currentEvent.id} confirmation={handleConfirmation} hasAlreadyAnswered={hasAlreadyAnswered} status={currentStatus} />}
-            </View>
+            <EventForm back={handleBack} switchScreen={switchToEventDetails} />
+            <EventDetails back={handleBack} />
         </Animated.View>
       </View>
   );

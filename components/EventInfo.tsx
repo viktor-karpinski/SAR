@@ -4,7 +4,7 @@ type Props = {
     event: Object;
 }
 
-const EventDetails = ({event} : Props) => {
+const EventInfo = ({event} : Props) => {
     return (
         <View>
             <View style={styles.container}>
@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default EventDetails;
+export default EventInfo;

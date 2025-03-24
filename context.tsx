@@ -18,6 +18,8 @@ type GlobalContextType = {
   setHasEvent: (hasEvents: Boolean) => void;
   stackHome: Boolean | null;
   setStackHome: (hasEvents: Boolean) => void;
+  currentEvent: Object | null;
+  setCurrentEvent: (event: Object) => void;
 };
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -32,6 +34,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [ events, setEvents ] = useState<Array<Object>>([]);
   const [ hasEvents, setHasEvent ] = useState<Boolean>(false);
   const [ stackHome, setStackHome ] = useState<Boolean>(false);
+  const [ currentEvent, setCurrentEvent ] = useState<Object>({});
 
   // In non-Expo projects, ensure your fonts are added and linked properly via your native config.
   // Similarly, manage your splash screen via react-native-splash-screen or similar if needed.
@@ -55,7 +58,9 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         hasEvents, 
         setHasEvent,
         stackHome,
-        setStackHome
+        setStackHome,
+        currentEvent,
+        setCurrentEvent
       }}
     >
       {children}

@@ -6,11 +6,10 @@ type Props = {
     event: number;
     hasAlreadyAnswered: Boolean,
     status: number,
-    confirmation: (event: Object) => void;
 };
 
-const ParticipationConfirmation = ({ event, hasAlreadyAnswered, status, confirmation }: Props) => {
-    const { apiURL, apiToken } = useGlobalContext();
+const ParticipationConfirmation = ({ event, hasAlreadyAnswered, status }: Props) => {
+    const { apiURL, apiToken, setCurrentEvent } = useGlobalContext();
     const declineWidth = useRef(new Animated.Value((Dimensions.get("window").width / 2) - 20)).current;
     const confirmWidth = useRef(new Animated.Value((Dimensions.get("window").width / 2) - 20)).current;
     const declineOpacity = useRef(new Animated.Value(1)).current;
@@ -33,9 +32,7 @@ const ParticipationConfirmation = ({ event, hasAlreadyAnswered, status, confirma
 
         if (response.ok && data) {
             console.log("CONFIRMATION", data.users);
-            if (confirmation) {
-                confirmation(data);
-            }
+            setCurrentEvent(data)
         }
     };
 
