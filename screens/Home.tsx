@@ -58,19 +58,23 @@ export default function HomeScreen({extra, stacked, back}: Props) {
 
   useEffect(() => {
     let isPending = false
+    let current = {}
+
     events.forEach((event: Object) => {
       if (!event.till) {
-       isPending = true
-       handleSetCurrentEvent(event)
-       setTimeout(() => {
-        getPendingEvent(event)
-       }, 1000)
+        current = event
+        isPending = true
       }
     })
 
     if (!isPending) {
       setHasPendingEvent(false)
       handleBack()
+    } else {
+      handleSetCurrentEvent(current)
+       setTimeout(() => {
+        getPendingEvent(current)
+       }, 1000)
     }
   }, [events])
 
@@ -225,8 +229,8 @@ export default function HomeScreen({extra, stacked, back}: Props) {
   }
 
   const handleSetCurrentEvent = (data : Object) => {
-    setCurrentEvent(data)
     if (data.till == null) {
+      setCurrentEvent(data)
       setHasPendingEvent(true)
       resetPendingUsers(data)
       setTimeout(() => {
@@ -236,6 +240,8 @@ export default function HomeScreen({extra, stacked, back}: Props) {
       handleFinishEvent()
       setHasPendingEvent(false)
       getEvents()
+      setCurrentStatus(0)
+      handleBack()
     }
   }
 
@@ -274,10 +280,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
     const data = await response.json();
 
     if (response.ok && data) {
-      setCurrentEvent(data.event)
       setEvents(data.events)
-      setHasPendingEvent(false)
-      handleBack()
     }
   }
 
@@ -374,7 +377,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
             Minulé Zásahy
           </Text>
           <View style={styles.hr}></View>
-          <View style={{height: (Dimensions.get("window").height - 483),}}>
+          <View style={{height: (Dimensions.get("window").height - 483 + ((user.isOrganiser || hasPendingEvent)) ? 0 : 100),}}>
           <ScrollView contentContainerStyle={[styles.eventContainer]}>
             {!hasEvents && <View style={[styles.eventContainerWrapper, {height: (Dimensions.get("window").height - 603),}]}>
               <LoadingAnimation />
@@ -476,7 +479,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
                   )}
                 </View>
               </ScrollView>
-
+              <View style={{height: 20, width: "100%"}}></View>
               {(currentEvent.user_id == user.id && currentEvent.till != null) && <LargeButton label="Vymazať Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={deleteEvent} />}
               {(currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status != 'V Čakaní') && <LargeButton label="Ukončiť Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={handleFinishEvent} />}
               {(currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status == 'V Čakaní') && <LargeButton label="Aktivovat Zásah" isPending={false} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={handleActivate} />}

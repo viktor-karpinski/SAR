@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         paddingInline: 20,
         borderRadius: 3,
-        overflow: "hidden"
+        overflow: "hidden",
     },
     btn: {
         height: 60,
