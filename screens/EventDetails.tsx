@@ -13,8 +13,8 @@ type Props = {
 }
 
 export default function EventDetails({back} : Props) {
-  const { apiURL, apiToken, currentEvent, setCurrentEvent, setEvents } = useGlobalContext();
-  const [ wating, setWaiting ] = useState<number>(0);
+  const { apiURL, apiToken, currentEvent, setCurrentEvent, setEvents, user } = useGlobalContext();
+  const [ waiting, setWaiting ] = useState<number>(0);
   const [ confirmed, setConfirmed ] = useState<number>(0);
   const [ declined, setDeclined ] = useState<number>(0);
 
@@ -130,7 +130,7 @@ export default function EventDetails({back} : Props) {
           Zoznam členov
         </Text>
 
-        <PendingCounter waiting={wating} confirmed={confirmed} declined={declined} />
+        <PendingCounter waiting={waiting} confirmed={confirmed} declined={declined} />
       </View>
 
       <View style={styles.hr}></View>

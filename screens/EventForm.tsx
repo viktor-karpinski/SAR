@@ -1,6 +1,6 @@
 import { ScrollView, View } from "react-native";
 import BackButton from "../components/BackButton";
-import Input from "../components/TextButton";
+import Input from "../components/Input";
 import TextArea from "../components/TextArea";
 import LargeButton from "../components/LargeButton";
 import { useState } from "react";
@@ -10,10 +10,9 @@ type Props = {
     switchScreen?: () => void;
     back?: () => void;
 }
-  
 
 export default function EventForm({switchScreen, back} : Props) {
-    const { apiToken, apiURL, setEvents } = useGlobalContext();
+    const { apiToken, apiURL, setEvents, events } = useGlobalContext();
     const [ location, setLocation ] = useState<string>("");
     const [ latitude, setLatitude ] = useState<string>("");
     const [ longitude, setLongitude ] = useState<string>("");
@@ -52,7 +51,7 @@ export default function EventForm({switchScreen, back} : Props) {
         const data = await response.json();
     
         if (response.ok && data) {
-            setEvents(data)
+            setEvents([...events, data])
             setTimeout(() => {
                 setLocation("")
                 setDescription("")

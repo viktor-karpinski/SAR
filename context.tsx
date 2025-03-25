@@ -36,9 +36,6 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [ stackHome, setStackHome ] = useState<Boolean>(false);
   const [ currentEvent, setCurrentEvent ] = useState<Object>({});
 
-  // In non-Expo projects, ensure your fonts are added and linked properly via your native config.
-  // Similarly, manage your splash screen via react-native-splash-screen or similar if needed.
-
   return (
     <GlobalContext.Provider
       value={{

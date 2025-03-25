@@ -1,17 +1,11 @@
-import { Animated, Dimensions, Image, StyleSheet, Text, View, ScrollView, Alert } from "react-native";
+import { Animated, Dimensions, Image, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useGlobalContext } from "../context"; 
 import { useEffect, useRef, useState } from "react";
 import LargeButton from "../components/LargeButton";
 import PastEventRow from "../components/PastEventRow";
-import BackButton from "../components/BackButton";
-import Input from "../components/Input";
-import TextArea from "../components/TextArea";
-import EventDetails from "./EventDetails";
-import UserPendingRow from "../components/UserPendingRow";
-import PendingCounter from "../components/PendingCounter";
-import ParticipationConfirmation from "../components/ParticipationConfirmation";
 import LoadingAnimation from "../components/LoadingAnimation";
 import EventForm from "./EventForm";
+import EventDetails from "./EventDetails";
 
 type Props = {
   extra: Object,
@@ -58,9 +52,20 @@ export default function HomeScreen({extra, stacked, back}: Props) {
       setHasPendingEvent(false)
       handleBack()
     } else {
-      handleSetCurrentEvent(current)
+      setCurrentEvent(current)
     }
   }, [events])
+
+  useEffect(() => {
+    if (currentEvent != null) {
+      if (currentEvent.till == null) {
+        setTimeout(() => {
+          getPendingEvent(currentEvent)
+        }, 3000)
+        setHasPendingEvent(true)
+      }
+    }
+  }, [currentEvent])
 
   const getEvents = async () => {
     const response = await fetch(apiURL + "events", {
@@ -80,7 +85,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
     }
   }
 
-  const getPendingEvent = async (event) => {
+  const getPendingEvent = async (event : Object) => {
       const response = await fetch(apiURL + "event/" + event.id, {
         method: "GET",
         headers: {
@@ -93,22 +98,8 @@ export default function HomeScreen({extra, stacked, back}: Props) {
       const data = await response.json();
   
       if (response.ok && data) {
-        handleSetCurrentEvent(data)
+        setCurrentEvent(data)
       }
-  }
-
-  const handleSetCurrentEvent = (data : Object) => {
-    if (data.till == null) {
-      setCurrentEvent(data)
-      setHasPendingEvent(true)
-      setTimeout(() => {
-        getPendingEvent(data)
-      }, 3000)
-    } else {
-      setHasPendingEvent(false)
-      getEvents()
-      handleBack()
-    }
   }
 
   const handleEvent = () => {
@@ -241,7 +232,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
             Minulé Zásahy
           </Text>
           <View style={styles.hr}></View>
-          <View style={{height: (Dimensions.get("window").height - 483 + ((user.isOrganiser || hasPendingEvent)) ? 0 : 100),}}>
+          <View style={{height: Dimensions.get("window").height - 483 + ((user.isOrganiser || hasPendingEvent) ? 0 : 100) }}>
           <ScrollView contentContainerStyle={[styles.eventContainer]}>
             {!hasEvents && <View style={[styles.eventContainerWrapper, {height: (Dimensions.get("window").height - 603),}]}>
               <LoadingAnimation />
@@ -276,12 +267,14 @@ export default function HomeScreen({extra, stacked, back}: Props) {
         </Animated.View>
 
         <Animated.View style={[styles.container, {top: secondaryVertical, left: secondaryHorizontal, opacity: secondaryOpacity}, styles.secondaryContainer]}>
-            <EventForm back={handleBack} switchScreen={switchToEventDetails} />
-            <EventDetails back={handleBack} />
+          <EventForm back={handleBack} switchScreen={switchToEventDetails} />
         </Animated.View>
       </View>
   );
 }
+
+//<EventForm back={handleBack} switchScreen={switchToEventDetails} />
+//<EventDetails back={handleBack} />
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -335,12 +328,4 @@ const styles = StyleSheet.create({
     paddingTop: 0
   },
 
-  containerWrapper: {
-    width: Dimensions.get("window").width,
-    height: "100%",
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    paddingTop: 150,
-  },
 });
