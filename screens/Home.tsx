@@ -25,6 +25,10 @@ export default function HomeScreen({extra, stacked, back}: Props) {
   useEffect(() => {
     const fetchData = async () => {
       await getEvents();
+
+      setTimeout(() => {
+        fetchData();
+      }, 180000)
     };
 
     fetchData();
@@ -268,13 +272,11 @@ export default function HomeScreen({extra, stacked, back}: Props) {
 
         <Animated.View style={[styles.container, {top: secondaryVertical, left: secondaryHorizontal, opacity: secondaryOpacity}, styles.secondaryContainer]}>
           <EventForm back={handleBack} switchScreen={switchToEventDetails} />
+          <EventDetails back={handleBack} />
         </Animated.View>
       </View>
   );
 }
-
-//<EventForm back={handleBack} switchScreen={switchToEventDetails} />
-//<EventDetails back={handleBack} />
 
 const styles = StyleSheet.create({
   wrapper: {

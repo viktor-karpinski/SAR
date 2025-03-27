@@ -1,0 +1,29 @@
+{
+    "project_info": {
+      "project_number": "323121291519",
+      "project_id": "sar-sk",
+      "storage_bucket": "sar-sk.firebasestorage.app"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:323121291519:android:818e0562bb35697c1bacca",
+          "android_client_info": {
+            "package_name": "com.viktorkarpinski.sar_android"
+          }
+        },
+        "oauth_client": [],
+        "api_key": [
+          {
+            "current_key": "AIzaSyDfcp1ILr2JVer7GcE5GBo8b-qEsmaTkdw"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": []
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

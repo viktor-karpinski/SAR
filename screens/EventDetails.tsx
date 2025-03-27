@@ -23,20 +23,25 @@ export default function EventDetails({back} : Props) {
 
   const handleBack = () => {
     if (back) {
+      setCurrentStatus(0)
+      setHasAlreadyAnswered(false)
       back()
     }
   }
 
   useEffect(() => {
-    if (currentEvent != null && currentEvent.till == null) {
+    if (currentEvent != null) {
       resetPendingUsers(currentEvent)
-    } else {
-      setCurrentStatus(0)
-      handleBack()
-    }
+      if (currentEvent.till != null) {
+        setHasAlreadyAnswered(false)
+        setCurrentStatus(0)
+      }
+
+    } 
   }, [currentEvent])
 
   const resetPendingUsers = (data : Object) => {
+    if (!data.users || !Array.isArray(data.users)) return;
     let waiting = 0;
     let confirmed = 0;
     let declined = 0;
@@ -111,7 +116,7 @@ export default function EventDetails({back} : Props) {
     }
 
   return (
-    <View style={[styles.containerWrapper, {paddingBottom: 100}]}>
+    <View style={[styles.containerWrapper, {paddingBottom: (currentEvent != null && currentEvent.user_id != user.id && currentEvent.till != null) ? 0:100}]}>
       <BackButton onPress={handleBack} extraStyle={{marginLeft: 20}} isVertical={true} />
 
       <View style={{paddingInline: 20, width: "100%"}}>
@@ -136,20 +141,20 @@ export default function EventDetails({back} : Props) {
       <View style={styles.hr}></View>
 
       {currentEvent != null && <ScrollView contentContainerStyle={{width: Dimensions.get("window").width, padding: 20, marginBottom: 20, paddingBottom: 0}}>
-        <View style={{ width: "100%" }}>
-          {currentEvent?.users?.length > 0 ? (
-            currentEvent.users.map((user, index) => (
-              <UserPendingRow key={index} user={user} />
-            ))
-          ) : (
-            <Text style={{ color: "#fff", textAlign: "center", marginTop: 20, fontFamily: "Hammersmith One", fontSize: 20, }}>
-              Nie sú k dispozícii žiadni používatelia
-            </Text>
-          )}
-        </View>
-      </ScrollView>}
+          <View style={{ width: "100%" }}>
+            {currentEvent?.users?.length > 0 ? (
+              currentEvent.users.map((user, index) => (
+                <UserPendingRow key={index} user={user} />
+              ))
+            ) : (
+              <Text style={{ color: "#fff", textAlign: "center", marginTop: 20, fontFamily: "Hammersmith One", fontSize: 20, }}>
+                Nie sú k dispozícii žiadni používatelia
+              </Text>
+            )}
+          </View>
+        </ScrollView>}
 
-      <View style={{height: 20, width: "100%"}}></View>
+        <View style={{height: 20, width: "100%"}}></View>
         {(currentEvent != null && currentEvent.user_id == user.id && currentEvent.till != null) && <LargeButton label="Vymazať Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={deleteEvent} />}
         {(currentEvent != null && currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status != 'V Čakaní') && <LargeButton label="Ukončiť Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={finishEvent} />}
         {(currentEvent != null && currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status == 'V Čakaní') && <LargeButton label="Aktivovat Zásah" isPending={false} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={activateEvent} />}

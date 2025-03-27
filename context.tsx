@@ -34,7 +34,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [ events, setEvents ] = useState<Array<Object>>([]);
   const [ hasEvents, setHasEvent ] = useState<Boolean>(false);
   const [ stackHome, setStackHome ] = useState<Boolean>(false);
-  const [ currentEvent, setCurrentEvent ] = useState<Object>({});
+  const [ currentEvent, setCurrentEvent ] = useState<Object | null>(null);
 
   return (
     <GlobalContext.Provider
