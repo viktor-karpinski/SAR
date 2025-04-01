@@ -1,10 +1,13 @@
 import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useGlobalContext } from "../context";
 
 type Props = {
     user: Object;
 }
 
 const UserPendingRow = ({user} : Props) => {
+    const { fonts } = useGlobalContext();
+
     const statusImages = {
         0: require("../assets/waiting.png"),
         1: require("../assets/confirmed.png"),
@@ -26,7 +29,7 @@ const UserPendingRow = ({user} : Props) => {
     return (
         <TouchableOpacity style={[styles.container]} onPress={handlePress}>
             <View style={styles.row}>
-                <Text style={[styles.text]}>
+                <Text style={[styles.text, {fontFamily: fonts[1]}]}>
                     {user.user.name}
                 </Text>
                 <View style={{flexDirection: "row", alignItems: "center"}}>
@@ -55,7 +58,6 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 20,
-        fontFamily: "Beiruti",
         letterSpacing: 1.4,
         color: "#ffffff"
     },

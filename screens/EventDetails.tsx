@@ -13,7 +13,7 @@ type Props = {
 }
 
 export default function EventDetails({back} : Props) {
-  const { apiURL, apiToken, currentEvent, setCurrentEvent, setEvents, user } = useGlobalContext();
+  const { apiURL, apiToken, currentEvent, setCurrentEvent, setEvents, user, fonts } = useGlobalContext();
   const [ waiting, setWaiting ] = useState<number>(0);
   const [ confirmed, setConfirmed ] = useState<number>(0);
   const [ declined, setDeclined ] = useState<number>(0);
@@ -119,7 +119,7 @@ export default function EventDetails({back} : Props) {
     <View style={[styles.containerWrapper, {paddingBottom: (currentEvent != null && currentEvent.user_id != user.id && currentEvent.till != null) ? 0:100}]}>
       <BackButton onPress={handleBack} extraStyle={{marginLeft: 20}} isVertical={true} />
 
-      <View style={{paddingInline: 20, width: "100%"}}>
+      <View style={{paddingLeft: 20, paddingRight: 0, width: "100%"}}>
         {currentEvent != null && <EventInfo event={currentEvent} />}
       </View>
 
@@ -131,7 +131,7 @@ export default function EventDetails({back} : Props) {
           marginTop: 40,
           paddingRight: 20,
         }}>
-        <Text style={styles.heading}>
+        <Text style={[styles.heading, {fontFamily: fonts[1]}]}>
           Zoznam členov
         </Text>
 
@@ -147,7 +147,7 @@ export default function EventDetails({back} : Props) {
                 <UserPendingRow key={index} user={user} />
               ))
             ) : (
-              <Text style={{ color: "#fff", textAlign: "center", marginTop: 20, fontFamily: "Hammersmith One", fontSize: 20, }}>
+              <Text style={{ color: "#fff", textAlign: "center", marginTop: 20, fontFamily: fonts[2], fontSize: 20, }}>
                 Nie sú k dispozícii žiadni používatelia
               </Text>
             )}
@@ -155,9 +155,9 @@ export default function EventDetails({back} : Props) {
         </ScrollView>}
 
         <View style={{height: 20, width: "100%"}}></View>
-        {(currentEvent != null && currentEvent.user_id == user.id && currentEvent.till != null) && <LargeButton label="Vymazať Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={deleteEvent} />}
-        {(currentEvent != null && currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status != 'V Čakaní') && <LargeButton label="Ukončiť Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={finishEvent} />}
-        {(currentEvent != null && currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status == 'V Čakaní') && <LargeButton label="Aktivovat Zásah" isPending={false} noIcon={true} extraStyle={{fontFamily: "Hammersmith One", fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={activateEvent} />}
+        {(currentEvent != null && currentEvent.user_id == user.id && currentEvent.till != null) && <LargeButton label="Vymazať Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: fonts[2], fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={deleteEvent} />}
+        {(currentEvent != null && currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status != 'V Čakaní') && <LargeButton label="Ukončiť Zásah" isPending={true} noIcon={true} extraStyle={{fontFamily: fonts[2], fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={finishEvent} />}
+        {(currentEvent != null && currentEvent.user_id == user.id && currentEvent.till == null && currentEvent.status == 'V Čakaní') && <LargeButton label="Aktivovat Zásah" isPending={false} noIcon={true} extraStyle={{fontFamily: fonts[2], fontSize: 20, marginLeft: 20, marginRight: 20, width: Dimensions.get("window").width - 40}} onPress={activateEvent} />}
         {(currentEvent != null && currentEvent.user_id != user.id && currentEvent.till == null) && <ParticipationConfirmation event={currentEvent.id} hasAlreadyAnswered={hasAlreadyAnswered} status={currentStatus} />}
       </View>
     )
@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     letterSpacing: 1.76,
     color: "#ffffff",
-    fontFamily: "Beiruti",
     alignSelf: "flex-start",
     marginLeft: 20,
   },

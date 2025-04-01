@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Svg, { G, Path, Defs, ClipPath, Rect } from "react-native-svg";
+import { useGlobalContext } from "../context";
 
 type Props = {
     user: Object;
@@ -11,6 +12,7 @@ const UserRow = ({ user }: Props) => {
     const extraOpacity = useRef(new Animated.Value(0)).current;
     const rotation = useRef(new Animated.Value(0)).current;
     const [isOpen, setIsOpen] = useState<Boolean>(false);
+    const { fonts } = useGlobalContext();
 
     const handleInfoButton = () => {
         if (!isOpen) {
@@ -58,7 +60,7 @@ const UserRow = ({ user }: Props) => {
     return (
         <View style={[styles.container]}>
             <View style={styles.wrapper}>
-                <Text style={[styles.text]}>{user.name}</Text>
+                <Text style={[styles.text, {fontFamily: fonts[1]}]}>{user.name}</Text>
                 <TouchableOpacity onPress={handleInfoButton} style={styles.button}>
                     <Animated.View style={{ transform: [{ rotate: rotateInterpolate }] }}>
                         <Svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -76,8 +78,8 @@ const UserRow = ({ user }: Props) => {
                 </TouchableOpacity>
             </View>
             <Animated.View style={[styles.extra, { height: extraHeight, opacity: extraOpacity }]}>
-                <Text style={[styles.text, styles.small]}>{user.email}</Text>
-                <Text style={[styles.text, styles.small]}>{user.phone}</Text>
+                <Text style={[styles.text, {fontFamily: fonts[1]}, styles.small]}>{user.email}</Text>
+                <Text style={[styles.text, {fontFamily: fonts[1]}, styles.small]}>{user.phone}</Text>
             </Animated.View>
         </View>
     );
@@ -88,7 +90,8 @@ const styles = StyleSheet.create({
         width: "100%",
         borderBottomWidth: 1,
         borderColor: "#4B4B4B",
-        paddingInline: 0,
+        paddingLeft: 0,
+        paddingRight: 0,
     },
 
     wrapper: {
@@ -99,7 +102,6 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 20,
-        fontFamily: "Beiruti",
         color: "#ffffff",
     },
 

@@ -14,7 +14,7 @@ type Props = {
 }
 
 export default function HomeScreen({extra, stacked, back}: Props) {
-  const { apiToken, apiURL, user, events, setEvents, hasEvents, setHasEvent, stackHome, setStackHome, currentEvent, setCurrentEvent } = useGlobalContext();
+  const { apiToken, apiURL, user, events, setEvents, hasEvents, setHasEvent, stackHome, setStackHome, currentEvent, setCurrentEvent, fonts } = useGlobalContext();
   const [ hasPendingEvent, setHasPendingEvent] = useState<Boolean | null>(false);
   const mainVertical = useRef(new Animated.Value(0)).current;
   const mainOpacity = useRef(new Animated.Value(1)).current;
@@ -232,7 +232,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
           {(user.isOrganiser || hasPendingEvent) && <View style={{ padding: 20, width: "100%", marginTop: 30 }}>
             <LargeButton label="Nový zásah" extraStyle={{}} onPress={handleEvent} isPending={hasPendingEvent} />
           </View>}
-          <Text style={[styles.heading, {marginTop: 40}]}>
+          <Text style={[styles.heading, {fontFamily: fonts[1], marginTop: 40}]}>
             Minulé Zásahy
           </Text>
           <View style={styles.hr}></View>
@@ -260,7 +260,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
                   )
                 ) : (
                   <View style={{height: Dimensions.get("window").height - 593, justifyContent: "center"}}>
-                    <Text style={{ color: "#fff", textAlign: "center", fontFamily: "Beiruti", fontSize: 20, letterSpacing: 0.8, }}>
+                    <Text style={{ color: "#fff", textAlign: "center", fontFamily: fonts[1], fontSize: 20, letterSpacing: 0.8, }}>
                       zatiaľ neexistujú žiadne minulé zásahy...
                     </Text>
                   </View>
@@ -296,7 +296,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     letterSpacing: 1.76,
     color: "#ffffff",
-    fontFamily: "Beiruti",
     alignSelf: "flex-start",
     marginLeft: 20,
   },
@@ -317,7 +316,8 @@ const styles = StyleSheet.create({
   eventContainer: {
     width: "100%",
     paddingTop: 20,
-    paddingInline: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
     paddingBottom: 100,
   },
 

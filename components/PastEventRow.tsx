@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet, TouchableOpacity, } from "react-native";
 import Svg, { Path } from "react-native-svg";
+import { useGlobalContext } from "../context";
 
 type Props = {
     address: String,
@@ -11,6 +12,7 @@ type Props = {
 }
 
 const PastEventRow = ({ address, date, from, till, extra, pressed }: Props) => {
+    const { fonts } = useGlobalContext();
 
     const handlePress = () => {
         if (pressed)
@@ -19,10 +21,10 @@ const PastEventRow = ({ address, date, from, till, extra, pressed }: Props) => {
 
     return (
         <TouchableOpacity style={[styles.container, extra]} onPress={handlePress}>
-            <Text style={styles.heading}>
+            <Text style={[styles.heading, {fontFamily: fonts[1]}]}>
                 {address}
             </Text>
-            <Text style={styles.time}>
+            <Text style={[styles.time, {fontFamily: fonts[1]}]}>
                 {date}, {from} - {till}
             </Text>
             <View style={styles.icon}>
@@ -60,20 +62,19 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingTop: 15,
         paddingBottom: 20,
-        paddingInline: 15,
+        paddingLeft: 15,
+        paddingRight: 15,
         width: "100%",
         backgroundColor: "#191919B3"
     },
     heading: {
         fontSize: 18,
-        fontFamily: "Beiruti",
         letterSpacing: 1.44,
         color: "white",
         marginBottom: 7,
     },
     time: {
         fontSize: 14,
-        fontFamily: "Beiruti",
         letterSpacing: 1.12,
         color: "white",
     },

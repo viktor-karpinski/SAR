@@ -8,7 +8,7 @@ type InputProps = {
 }
 
 export default function MembersScreen({extra}: InputProps) {
-  const { apiToken, apiURL, setUsers, users } = useGlobalContext()
+  const { apiToken, apiURL, setUsers, users, fonts } = useGlobalContext()
 
   useEffect(() => {
     getUsers()
@@ -33,7 +33,7 @@ export default function MembersScreen({extra}: InputProps) {
   
   return (
       <View style={[styles.container, extra]}>
-        <Text style={styles.heading}>
+        <Text style={[styles.heading, {fontFamily: fonts[1]}]}>
           Členovia Nášho Tímu
         </Text>
         <View style={styles.hr}></View>
@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     flexDirection: "column",
     gap: 0,
-    paddingInline: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
 
   heading: {
     fontSize: 22,
     letterSpacing: 1.76,
     color: "#ffffff",
-    fontFamily: "BeirutiRegular",
     alignSelf: "flex-start",
     marginLeft: 20,
   },

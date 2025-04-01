@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { useGlobalContext } from "../context";
 
 type Props = {
   label: string;
@@ -15,10 +16,11 @@ export default function Input({
     onPress,
     extraStyle
   }: Props) {
+    const { fonts } = useGlobalContext();
       
     return (
         <TouchableOpacity style={[styles.button, extraStyle]} onPress={onPress}>
-            <Text style={styles.label}>
+            <Text style={[styles.label, {fontFamily: fonts[2]}]}>
                 {label}{"\n"}
                 <Text style={styles.highlight}>
                     {highlight}
@@ -40,7 +42,6 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 18,
         textAlign: "center",
-        fontFamily: "Hammersmith One",
         color: "#ffffff"
     },
 

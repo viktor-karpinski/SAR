@@ -1,5 +1,6 @@
 import React, { useState, memo } from "react";
 import { TextInput, StyleSheet, View, Text, Image } from "react-native";
+import { useGlobalContext } from "../context";
 
 type Props = {
   label: string;
@@ -43,6 +44,7 @@ const Input = memo(
     error,
     autoCorrect = false,
   }: Props) => {
+    const { fonts } = useGlobalContext();
     const imageSource = error ? iconMapping["error"] : iconMapping[icon];
     const [width, setWidth] = useState(0);
     const [isPasswordVisible, setIsPasswordVisible] = useState(icon != 'password');
@@ -54,7 +56,7 @@ const Input = memo(
 
     return (
       <View style={[styles.container, extraStyle]} onLayout={handleLayout}>
-        <Text style={[styles.label, error && styles.errorText]}>
+        <Text style={[styles.label, {fontFamily: fonts[2]}, error && styles.errorText]}>
           {error || label}
         </Text>
         <View style={[styles.inputContainer]}>
@@ -65,6 +67,7 @@ const Input = memo(
           <TextInput
             style={[
               styles.input,
+              {fontFamily: fonts[2]},
               secondPlaceholder != undefined && { width: width / 2 + 22 },
               secondPlaceholder != undefined && styles.secondLeft,
               error && styles.errorBorder,
@@ -85,6 +88,7 @@ const Input = memo(
               <TextInput
                 style={[
                   styles.input,
+                  {fontFamily: fonts[2]},
                   styles.second,
                   { width: width / 2 - 22 },
                 ]}
@@ -149,7 +153,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
 
     paddingLeft: 75,
-    fontFamily: "Hammersmith One",
     color: "#ffffff",
     width: "100%",
     borderRadius: 4,
@@ -159,7 +162,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#ffffff",
     marginBottom: 10,
-    fontFamily: "Hammersmith",
   },
 
   inputWrapper: {

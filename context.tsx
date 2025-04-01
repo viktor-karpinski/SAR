@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { Platform } from "react-native";
 
 type GlobalContextType = {
   apiToken: string | null;
@@ -20,6 +21,7 @@ type GlobalContextType = {
   setStackHome: (hasEvents: Boolean) => void;
   currentEvent: Object | null;
   setCurrentEvent: (event: Object) => void;
+  fonts: Array<string>;
 };
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -35,6 +37,10 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [ hasEvents, setHasEvent ] = useState<Boolean>(false);
   const [ stackHome, setStackHome ] = useState<Boolean>(false);
   const [ currentEvent, setCurrentEvent ] = useState<Object | null>(null);
+
+  const fonts = Platform.OS === 'ios' ? 
+  ["Contrail One", "Beiruti", "Hammersmith One"] : 
+  ["ContrailOne", "BeirutiRegular", "Hammersmith", "SpaceMono-Regular"];
 
   return (
     <GlobalContext.Provider
@@ -57,7 +63,8 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         stackHome,
         setStackHome,
         currentEvent,
-        setCurrentEvent
+        setCurrentEvent,
+        fonts
       }}
     >
       {children}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { TextInput, StyleSheet, View, Text } from "react-native";
+import { useGlobalContext } from "../context";
 
 type Props = {
   label: string;
@@ -16,18 +17,19 @@ export default function TextArea({
   onChangeText,
   extraStyle,
 }: Props) {
-  const [height, setHeight] = useState(60); // Initial height of the TextInput
+  const { fonts } = useGlobalContext();
+  const [height, setHeight] = useState(60);
 
   const handleContentSizeChange = (event: any) => {
-    setHeight(Math.max(60, event.nativeEvent.contentSize.height)); // Adjust height dynamically
+    setHeight(Math.max(60, event.nativeEvent.contentSize.height));
   };
 
   return (
     <View style={[styles.container, extraStyle]}>
-      {label && <Text style={styles.label}>{label}</Text>}
+      {label && <Text style={[styles.label, {fontFamily: fonts[2]}]}>{label}</Text>}
       <View style={styles.textAreaWrapper}>
         <TextInput
-          style={[styles.textArea]}
+          style={[styles.textArea, {fontFamily: fonts[2]}]}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
@@ -48,7 +50,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#ffffff",
     marginBottom: 8,
-    fontFamily: "Hammersmith One",
   },
   textAreaWrapper: {
     backgroundColor: "rgba(25, 25, 25, 0.5)",
@@ -60,7 +61,6 @@ const styles = StyleSheet.create({
   textArea: {
     fontSize: 18,
     color: "#ffffff",
-    fontFamily: "Hammersmith One",
     textAlignVertical: "top", 
     lineHeight: 24,
     height: 100

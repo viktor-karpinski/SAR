@@ -1,14 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
+import { useGlobalContext } from "../context";
 
 type Props = {
     event: Object;
 }
 
 const EventInfo = ({event} : Props) => {
+    const { fonts } = useGlobalContext(); 
+
     return (
         <View>
             <View style={styles.container}>
-                <Text style={[styles.text, styles.heading]}>
+                <Text style={[styles.text, styles.heading, {fontFamily: fonts[2]}]}>
                     {event.address}
                 </Text>
 
@@ -20,7 +23,7 @@ const EventInfo = ({event} : Props) => {
             </View>
 
             {event.till == null && <View style={[styles.status, event.status == 'active' && {backgroundColor: "#154FA1"}]}>
-                <Text style={styles.text}>
+                <Text style={[styles.text, {fontFamily: fonts[2]}]}>
                     Aktuálny Stav: {event.status != 'active' ? 'Buď Pripravení' : 'Zásah je v Akcii'}
                 </Text>
             </View>}
@@ -35,8 +38,10 @@ const styles = StyleSheet.create({
 
         flexDirection: "column",
 
-        paddingBlock: 25,
-        paddingInline: 20,
+        paddingTop: 25,
+        paddingBottom: 25,
+        paddingLeft: 20,
+        paddingRight: 20,
         backgroundColor: "#191919B3",
         borderWidth: 2,
         borderColor: "#154FA1",
@@ -48,7 +53,6 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 18,
-        fontFamily: "Hammersmith One",
         color: "#ffffff"
     },
 
@@ -56,7 +60,8 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 1,
         backgroundColor: "#4B4B4B",
-        marginBlock: 25,
+        marginTop: 25,
+        marginBottom: 25,
     },
 
     status: {

@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default function EventForm({switchScreen, back} : Props) {
-    const { apiToken, apiURL, setEvents, events } = useGlobalContext();
+    const { apiToken, apiURL, setEvents, events, fonts } = useGlobalContext();
     const [ location, setLocation ] = useState<string>("");
     const [ latitude, setLatitude ] = useState<string>("");
     const [ longitude, setLongitude ] = useState<string>("");
@@ -86,7 +86,7 @@ export default function EventForm({switchScreen, back} : Props) {
                 <LargeButton 
                 noIcon={true} 
                 label="Oznámiť všetkým" 
-                extraStyle={{fontFamily: "Hammersmith One", fontSize: 20,}} 
+                extraStyle={{fontFamily: fonts[2], fontSize: 20,}} 
                 isPending={false} 
                 onPress={handleEventSave} 
                 />

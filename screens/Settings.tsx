@@ -10,7 +10,7 @@ type InputProps = {
 }
 
 export default function SettingsScreen({extra, onLogOut}: InputProps) {
-  const { setApiToken, setFirebaseToken, setUser, setUsers, user } = useGlobalContext();
+  const { setApiToken, setFirebaseToken, setUser, setUsers, user, fonts } = useGlobalContext();
 
   const handleLogout = async () => {
     try {
@@ -28,11 +28,11 @@ export default function SettingsScreen({extra, onLogOut}: InputProps) {
   return (
       <ScrollView contentContainerStyle={[styles.container, extra]}>
         <View style={{marginBottom: 30}}>
-          <Text style={[styles.text, {fontSize: 30, marginBottom: 10}]}>
+          <Text style={[styles.text, {fontSize: 30, marginBottom: 10, fontFamily: fonts[1]}]}>
             {user.name}
           </Text>
           
-          <Text style={[styles.text, {textTransform: "uppercase"}]}>
+          <Text style={[styles.text, {textTransform: "uppercase", fontFamily: fonts[1]}]}>
             {user.email}     |    {user.phone}
           </Text>
         </View>
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
 
   text: {
     color: "#ffffff",
-    fontFamily: "BeirutiRegular",
     fontSize: 16,
     textAlign: "left"
   },

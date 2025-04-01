@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
+import { useGlobalContext } from "../context";
 
 type Props = {
   label: string;
@@ -18,6 +19,8 @@ export default function LargeButton({
     isPending,
     noIcon,
   }: Props) {
+    const { fonts } = useGlobalContext(); 
+
     return (
         <TouchableOpacity style={[styles.button, extraStyle, isPending && styles.pending]} onPress={onPress}>
             {(!isPending && !noIcon) && <Svg width="35" height="37" viewBox="0 0 35 37" fill="none">
@@ -36,7 +39,7 @@ export default function LargeButton({
                     strokeLinejoin="round"
                 />
             </Svg>}
-            <Text style={[styles.label, extraStyle, isPending && styles.pendingLabel]}>
+            <Text style={[styles.label, {fontFamily: fonts[0]}, extraStyle, isPending && styles.pendingLabel]}>
                 {(isPending) ? (noIcon ? label: "Aktuálny Zásah") : label} 
             </Text>
             {(isPending && !noIcon) && <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -62,7 +65,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
 
         height: 60,
-        paddingInline: 15,
+        paddingLeft: 20,
+        paddingRight: 20,
         width: "100%",
         borderRadius: 2,
     },
@@ -70,7 +74,6 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 26,
         textAlign: "center",
-        fontFamily: "Contrail One",
         color: "#ffffff",
         marginLeft: 15,
         marginRight: 30,

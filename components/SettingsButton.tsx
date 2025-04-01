@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import Svg, { G, Path, Defs, ClipPath, Rect } from "react-native-svg";
+import { useGlobalContext } from "../context";
 
 type Props = {
     label: string,
@@ -15,13 +16,14 @@ const iconMapping: { [key: string]: any } = {
 };
 
 const SettingsButton = ({label, icon, isLogout, onPress} : Props) => {
+    const { fonts } = useGlobalContext();
     const imageSource = iconMapping[icon];
 
     return (
         <TouchableOpacity style={[styles.button, isLogout && {borderBottomWidth: 0}]} onPress={onPress}>
             <View style={[styles.container]}>
                 <Image source={imageSource} style={{width: 18, height: 18}} />
-                <Text style={[styles.text, isLogout && {color: '#DE2C1A'}]}>
+                <Text style={[styles.text, {fontFamily: fonts[1]}, isLogout && {color: '#DE2C1A'}]}>
                     {label}
                 </Text>
             </View>
@@ -61,7 +63,6 @@ const styles = StyleSheet.create({
 
     text: {
         color: "#ffffff",
-        fontFamily: "Beiruti",
         fontSize: 18,
         letterSpacing: 1.5
     },

@@ -9,7 +9,7 @@ type Props = {
 };
 
 const ParticipationConfirmation = ({ event, hasAlreadyAnswered, status }: Props) => {
-    const { apiURL, apiToken, setCurrentEvent } = useGlobalContext();
+    const { apiURL, apiToken, setCurrentEvent, fonts } = useGlobalContext();
     const declineWidth = useRef(new Animated.Value((Dimensions.get("window").width / 2) - 20)).current;
     const confirmWidth = useRef(new Animated.Value((Dimensions.get("window").width / 2) - 20)).current;
     const declineOpacity = useRef(new Animated.Value(1)).current;
@@ -108,12 +108,12 @@ const ParticipationConfirmation = ({ event, hasAlreadyAnswered, status }: Props)
         <View style={styles.container}>
             <Animated.View style={[styles.btn, styles.decline, { width: declineWidth, opacity: declineOpacity }]}>
                 <TouchableOpacity onPress={handleDecline}>
-                    <Text style={styles.text}>{!isAnimating && declineText}</Text>
+                    <Text style={[styles.text, {fontFamily: fonts[2]}]}>{!isAnimating && declineText}</Text>
                 </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.btn, styles.confirm, { width: confirmWidth, opacity: confirmOpacity }]}>
                 <TouchableOpacity onPress={handleAccept}>
-                    <Text style={styles.text}>{!isAnimating && acceptText}</Text>
+                    <Text style={[styles.text, {fontFamily: fonts[2]}]}>{!isAnimating && acceptText}</Text>
                 </TouchableOpacity>
             </Animated.View>
         </View>
@@ -124,7 +124,8 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         flexDirection: "row",
-        paddingInline: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         borderRadius: 3,
         overflow: "hidden",
     },
@@ -134,7 +135,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18,
-        fontFamily: "Hammersmith One",
         color: "#ffffff",
         textAlign: "center",
     },

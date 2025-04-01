@@ -1,4 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native";
+import { useGlobalContext } from "../context";
 
 type Props = {
     confirmed: number;
@@ -7,22 +8,24 @@ type Props = {
 }
 
 const PendingCounter = ({confirmed, declined, waiting} : Props) => {
+    const { fonts } = useGlobalContext();
+
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
-                <Text style={styles.text}>
+                <Text style={[styles.text, {fontFamily: fonts[1]}]}>
                     {`${confirmed}`}
                 </Text>
                 <Image source={require("../assets/confirmed.png")} style={styles.image} />
             </View>
             <View style={styles.wrapper}>
-                <Text style={styles.text}>
+                <Text style={[styles.text, {fontFamily: fonts[1]}]}>
                     {`${waiting}`}
                 </Text>
                 <Image source={require("../assets/waiting.png")} style={styles.image} />
             </View>
             <View style={styles.wrapper}>
-                <Text style={styles.text}>
+                <Text style={[styles.text, {fontFamily: fonts[1]}]}>
                     {`${declined}`}
                 </Text>
                 <Image source={require("../assets/declined.png")} style={styles.image} />
@@ -52,7 +55,6 @@ const styles = StyleSheet.create({
     
       text: {
         fontSize: 25,
-        fontFamily: "Beiruti",
         color: "#ffffff",
       }
 })
