@@ -119,7 +119,7 @@ export default function EventDetails({back} : Props) {
     <View style={[styles.containerWrapper, {paddingBottom: (currentEvent != null && currentEvent.user_id != user.id && currentEvent.till != null) ? 0:100}]}>
       <BackButton onPress={handleBack} extraStyle={{marginLeft: 20}} isVertical={true} />
 
-      <View style={{paddingLeft: 20, paddingRight: 0, width: "100%"}}>
+      <View style={{paddingLeft: 20, paddingRight: 20, width: "100%"}}>
         {currentEvent != null && <EventInfo event={currentEvent} />}
       </View>
 
