@@ -1,8 +1,10 @@
-import { StyleSheet, Text, ScrollView, View } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Animated, Dimensions } from 'react-native';
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { useGlobalContext } from "../context";
 import SettingsButton from "../components/SettingsButton";
+import { useRef } from 'react';
+import UserEditForm from './UserEditForm';
 
 type InputProps = {
   extra: Object,
@@ -11,6 +13,9 @@ type InputProps = {
 
 export default function SettingsScreen({extra, onLogOut}: InputProps) {
   const { setApiToken, setFirebaseToken, setUser, setUsers, user, fonts } = useGlobalContext();
+  const mainVertical = useRef(new Animated.Value(0)).current;
+  const secondaryVertical = useRef(new Animated.Value(-Dimensions.get("window").height)).current
+  const secondaryHorizontal = useRef(new Animated.Value(0)).current
 
   const handleLogout = async () => {
     try {
@@ -25,24 +30,62 @@ export default function SettingsScreen({extra, onLogOut}: InputProps) {
       //console.error("Error logging out:", error);
     }
   };
-  return (
-      <ScrollView contentContainerStyle={[styles.container, extra]}>
-        <View style={{marginBottom: 30}}>
-          <Text style={[styles.text, {fontSize: 30, marginBottom: 10, fontFamily: fonts[1]}]}>
-            {user.name}
-          </Text>
-          
-          <Text style={[styles.text, {textTransform: "uppercase", fontFamily: fonts[1]}]}>
-            {user.email}     |    {user.phone}
-          </Text>
-        </View>
 
-        <View style={styles.settingsContainer}>
-          <SettingsButton label="Upraviť Svoje Údaje" icon="edit" onPress={handleLogout} />
-          <SettingsButton label="Zmeniť Svoje Heslo" icon="lock" onPress={handleLogout} />
-          <SettingsButton label="Odhlásiť Sa" icon="logout" onPress={handleLogout} isLogout={true} />
-        </View>
-      </ScrollView>
+  const handleShowUserEditForm = () => {
+    Animated.timing(mainVertical, {
+      toValue: Dimensions.get("window").height,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+
+    Animated.timing(secondaryVertical, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  }
+
+  const handleBack = () => {
+    Animated.timing(mainVertical, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+
+    Animated.timing(secondaryVertical, {
+      toValue: -Dimensions.get("window").height,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  }
+
+  return (
+    <View style={[{width: Dimensions.get("window").width,}, extra]}>
+      <Animated.View style={[ { position: "absolute", top: mainVertical}]}>
+        <ScrollView contentContainerStyle={[styles.container]}>
+          <View style={{marginBottom: 30}}>
+            <Text style={[styles.text, {fontSize: 30, marginBottom: 10, fontFamily: fonts[1]}]}>
+              {user.name}
+            </Text>
+            
+            <Text style={[styles.text, {textTransform: "uppercase", fontFamily: fonts[1]}]}>
+              {user.email}     |    {user.phone}
+            </Text>
+          </View>
+
+          <View style={styles.settingsContainer}>
+            <SettingsButton label="Upraviť Svoje Údaje" icon="edit" onPress={handleShowUserEditForm} />
+            <SettingsButton label="Zmeniť Svoje Heslo" icon="lock" onPress={handleLogout} />
+            <SettingsButton label="Odhlásiť Sa" icon="logout" onPress={handleLogout} isLogout={true} />
+          </View>
+        </ScrollView>
+      </Animated.View>
+
+      <Animated.View style={[styles.container, {top: secondaryVertical, left: secondaryHorizontal}, styles.secondaryContainer]}>
+        <UserEditForm handleSuccess={handleBack} />
+        <UserEditForm handleSuccess={() => {}} />
+      </Animated.View>
+    </View>
   );
 }
 
@@ -53,6 +96,8 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 120,
     justifyContent: "space-between",
+    backgroundColor: "transparent",
+    height: Dimensions.get("screen").height
   },
 
   text: {
@@ -66,5 +111,15 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     height: 200,
     overflow: "hidden"
-  }
+  },
+
+  secondaryContainer: {
+    width: Dimensions.get("window").width * 2,
+    height: "100%",
+    flex: 1,
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    paddingTop: 0,
+    padding: 0
+  },
 });
