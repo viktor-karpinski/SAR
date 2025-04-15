@@ -14,7 +14,7 @@ type InputProps = {
 };
 
 export default function UserEditForm({ extra, handleSuccess }: InputProps) {
-  const { user, apiURL, apiToken } = useGlobalContext(); 
+  const { user, apiURL, apiToken, setUser } = useGlobalContext(); 
 
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
@@ -62,6 +62,7 @@ export default function UserEditForm({ extra, handleSuccess }: InputProps) {
       const data = await response.json();
 
       if (response.ok) {
+        setUser(data.user)
         handleBack()
       } else {
         console.log(data)

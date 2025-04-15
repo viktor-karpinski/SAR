@@ -1,5 +1,5 @@
-import { Animated, Dimensions } from 'react-native';
-import { useEffect, useRef } from 'react';
+import { Alert, Animated, Dimensions } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
 import { useGlobalContext } from "./../context"; 
 import checkUserAuthentication from './../checkUserAuthentication'
 import LoginScreen from './../screens/Login';
@@ -59,14 +59,14 @@ export default function Auth({authVertical, handleAuth}: Props) {
         });
     
         const data = await response.json();
-    
+
         if (response.ok && data) {
           setApiToken(data.token);
           setUser(data.user)
           if (handleAuth) {
             handleAuth()
           }
-        }
+        } 
     }
 
     const handleAuthSuccess = () => {
