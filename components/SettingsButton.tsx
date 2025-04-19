@@ -13,6 +13,7 @@ const iconMapping: { [key: string]: any } = {
     logout: require("../assets/logout.png"),
     edit: require("../assets/edit.png"),
     lock: require("../assets/changepassword.png"),
+    trash: require("../assets/trash.png")
 };
 
 const SettingsButton = ({label, icon, isLogout, onPress} : Props) => {

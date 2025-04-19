@@ -70,7 +70,7 @@ export default function Auth({authVertical, handleAuth}: Props) {
     }
 
     const handleAuthSuccess = () => {
-        //getApiToken()
+        getApiToken()
     }
 
     return (

@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Alert, Dimensions } from "react-native";
+import { View, StyleSheet, Alert, Dimensions, Text } from "react-native";
 import Input from "../components/Input";
-import Button from "../components/Button";
 
 import { useGlobalContext } from "../context"; 
 import BackButton from "../components/BackButton";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import LargeButton from "../components/LargeButton";
+import SettingsButton from "../components/SettingsButton";
 
 
 type InputProps = {
   handleSuccess?: () => void;
 };
 
-export default function UserEditForm({ extra, handleSuccess }: InputProps) {
-  const { user, apiURL, apiToken, setUser } = useGlobalContext(); 
+export default function UserEditForm({ handleSuccess }: InputProps) {
+  const { user, apiURL, apiToken, setUser, fonts } = useGlobalContext(); 
 
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
@@ -76,7 +77,7 @@ export default function UserEditForm({ extra, handleSuccess }: InputProps) {
   };
 
   return (
-  <KeyboardAwareScrollView style={[styles.scrollViewContent, extra]}>
+  <KeyboardAwareScrollView style={[styles.scrollViewContent]}>
     <View style={
       {
         flex: 1,
@@ -119,13 +120,23 @@ export default function UserEditForm({ extra, handleSuccess }: InputProps) {
         keyboardType="phone-pad"
       />
 
-      <Button
+      <LargeButton 
+        noIcon={true} 
         label={loading ? "..." : "Uložiť"}
-        onPress={handleEdit}
-        extraStyle={{marginTop: 15}}
+        extraStyle={{fontFamily: fonts[2], fontSize: 20,}} 
+        isPending={false} 
+        onPress={handleEdit} 
       />
+
+      <Text style={[styles.heading, {fontFamily: fonts[1], marginTop: 40}]}>
+        Iné Možnosti
+      </Text>
+      <View style={styles.hr}></View>
+      <View style={styles.settingsContainer}>
+        <SettingsButton label="Odstrániť Účet" icon="trash" onPress={() => {}} isLogout={true} />
       </View>
-    </KeyboardAwareScrollView>
+    </View>
+  </KeyboardAwareScrollView>
   );
 }
 
@@ -141,5 +152,28 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     width: "100%",
     height: Dimensions.get("screen").height
+  },
+
+  settingsContainer: {
+    width: "100%",
+    flexShrink: 1,
+    height: 80,
+    overflow: "hidden"
+  },
+
+  heading: {
+    fontSize: 22,
+    letterSpacing: 1.76,
+    color: "#ffffff",
+    alignSelf: "flex-start",
+    marginLeft: 0,
+  },
+  hr: {
+    width: Dimensions.get("window").width + 40,
+    height: 1,
+    backgroundColor: "#4B4B4B",
+    marginTop: 10,
+    position: "relative",
+    left: -20,
   },
 });
