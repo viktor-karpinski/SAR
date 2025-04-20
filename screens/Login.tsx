@@ -42,19 +42,20 @@ export default function LoginScreen({ extra, onSignupRedirect, onAuthSuccess }: 
 
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+        if (user) {
+          await new Promise((resolve) => setTimeout(resolve, 3600));
+          const token = await user.getIdToken();
 
-      if (user) {
-        const token = await user.getIdToken();
-        setFirebaseToken(token)
-
-        if (onAuthSuccess) {
-          onAuthSuccess()
-          setTimeout(() => {
-            setEmail("")
-            setPassword("")
-          }, 1000)
+          setFirebaseToken(token)
+  
+          if (onAuthSuccess) {
+            onAuthSuccess()
+            setTimeout(() => {
+              setEmail("")
+              setPassword("")
+            }, 1000)
+          } 
         }
-      }
     } catch (error: any) {
       setErrors({
         email: ["E-mail alebo heslo je nesprávne"], 

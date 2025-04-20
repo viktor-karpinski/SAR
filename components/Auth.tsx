@@ -19,7 +19,8 @@ export default function Auth({authVertical, handleAuth}: Props) {
     }, [])
 
     useEffect(() => {
-        getApiToken()
+        if (firebaseToken !== "" && firebaseToken !== undefined && firebaseToken !== null)
+            getApiToken()
     }, [firebaseToken])
     
     const checkAuth = async () => {
@@ -70,7 +71,6 @@ export default function Auth({authVertical, handleAuth}: Props) {
     }
 
     const handleAuthSuccess = () => {
-        getApiToken()
     }
 
     return (

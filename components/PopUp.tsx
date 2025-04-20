@@ -14,6 +14,7 @@ type Props = {
 const PopUp = ( { isConfirmation, text, label, action, visible, onClose } : Props ) => {
     const { fonts } = useGlobalContext();
     const [shouldRender, setShouldRender] = useState(visible);
+    const [rerenderKey, setRerenderKey] = useState(0);
 
     const scaleAnim = useRef(new Animated.Value(1)).current;
     const opacityAnim = useRef(new Animated.Value(1)).current;
@@ -21,6 +22,7 @@ const PopUp = ( { isConfirmation, text, label, action, visible, onClose } : Prop
     useEffect(() => {
         if (visible) {
             setShouldRender(true);
+            setTimeout(() => setRerenderKey(prev => prev + 1), 100);
             Animated.parallel([
                 Animated.timing(opacityAnim, {
                     toValue: 1,
@@ -40,7 +42,7 @@ const PopUp = ( { isConfirmation, text, label, action, visible, onClose } : Prop
                     useNativeDriver: true,
                 }),
                 Animated.timing(scaleAnim, {
-                    toValue: 0,
+                    toValue: 0.2,
                     duration: 150,
                     useNativeDriver: true,
                 }),
