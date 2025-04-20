@@ -5,6 +5,7 @@ import { useGlobalContext } from "../context";
 import SettingsButton from "../components/SettingsButton";
 import { useRef } from 'react';
 import UserEditForm from './UserEditForm';
+import UserPasswordForm from './UserPasswordForm';
 
 type InputProps = {
   extra: Object,
@@ -93,7 +94,7 @@ export default function SettingsScreen({extra, onLogOut, stacked, back}: InputPr
 
       <Animated.View style={[styles.container, {top: secondaryVertical, left: secondaryHorizontal}, styles.secondaryContainer]}>
         <UserEditForm handleSuccess={handleBack} handleDelete={handleLogout} />
-        <UserEditForm handleSuccess={() => {}} />
+        <UserPasswordForm handleSuccess={() => {}} />
       </Animated.View>
     </View>
   );

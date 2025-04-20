@@ -45,7 +45,6 @@ export default function UserEditForm({ handleSuccess, handleDelete }: InputProps
   };
 
   const handleEdit = async () => {
-
     try {
       setLoading(true);
 
