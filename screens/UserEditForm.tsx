@@ -8,6 +8,7 @@ import BackButton from "../components/BackButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import LargeButton from "../components/LargeButton";
 import SettingsButton from "../components/SettingsButton";
+import PopUp from "../components/PopUp";
 
 
 type InputProps = {
@@ -21,6 +22,7 @@ export default function UserEditForm({ handleSuccess }: InputProps) {
   const [email, setEmail] = useState(user.email);
   const [phoneNumber, setPhoneNumber] = useState(user.phone);
   const [loading, setLoading] = useState(false);
+  const [isPopUpVisible, setIsPopUpVisible] = useState(false);
 
   const [errors, setErrors] = useState<Object>({});
 
@@ -78,6 +80,8 @@ export default function UserEditForm({ handleSuccess }: InputProps) {
 
   return (
   <KeyboardAwareScrollView style={[styles.scrollViewContent]}>
+    <PopUp text="Naozaj chcete odstrániť svoj účet?" label="Áno, som si istý" isConfirmation={true} visible={isPopUpVisible} onClose={() => setIsPopUpVisible(false)} />
+
     <View style={
       {
         flex: 1,
@@ -133,7 +137,7 @@ export default function UserEditForm({ handleSuccess }: InputProps) {
       </Text>
       <View style={styles.hr}></View>
       <View style={styles.settingsContainer}>
-        <SettingsButton label="Odstrániť Účet" icon="trash" onPress={() => {}} isLogout={true} />
+        <SettingsButton label="Odstrániť Účet" icon="trash" onPress={() => {setIsPopUpVisible(true)}} isLogout={true} />
       </View>
     </View>
   </KeyboardAwareScrollView>
