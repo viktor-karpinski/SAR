@@ -35,6 +35,36 @@ export default function SettingsScreen({extra, onLogOut, stacked, back}: InputPr
   };
 
   const handleShowUserEditForm = () => {
+    Animated.timing(secondaryHorizontal, {
+      toValue: 0,
+      duration: 0,
+      useNativeDriver: false,
+    }).start();
+
+    Animated.timing(mainVertical, {
+      toValue: Dimensions.get("window").height,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+
+    Animated.timing(secondaryVertical, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+
+    if (stacked) {
+      stacked()
+    }
+  }
+
+  const handleShowPasswordForm = () => {
+    Animated.timing(secondaryHorizontal, {
+      toValue: -Dimensions.get("window").width,
+      duration: 0,
+      useNativeDriver: false,
+    }).start();
+
     Animated.timing(mainVertical, {
       toValue: Dimensions.get("window").height,
       duration: 500,
@@ -86,7 +116,7 @@ export default function SettingsScreen({extra, onLogOut, stacked, back}: InputPr
 
           <View style={styles.settingsContainer}>
             <SettingsButton label="Upraviť Svoje Údaje" icon="edit" onPress={handleShowUserEditForm} />
-            <SettingsButton label="Zmeniť Svoje Heslo" icon="lock" onPress={handleLogout} />
+            <SettingsButton label="Zmeniť Svoje Heslo" icon="lock" onPress={handleShowPasswordForm} />
             <SettingsButton label="Odhlásiť Sa" icon="logout" onPress={handleLogout} isLogout={true} />
           </View>
         </ScrollView>
@@ -94,7 +124,7 @@ export default function SettingsScreen({extra, onLogOut, stacked, back}: InputPr
 
       <Animated.View style={[styles.container, {top: secondaryVertical, left: secondaryHorizontal}, styles.secondaryContainer]}>
         <UserEditForm handleSuccess={handleBack} handleDelete={handleLogout} />
-        <UserPasswordForm handleSuccess={() => {}} />
+        <UserPasswordForm handleSuccess={handleBack} />
       </Animated.View>
     </View>
   );

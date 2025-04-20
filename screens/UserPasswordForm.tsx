@@ -22,16 +22,16 @@ export default function UserPasswordForm({ handleSuccess }: InputProps) {
     const [errors, setErrors] = useState<Object>({});
 
     const handleInputChange = (field: string, value: string) => {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [field]: null, 
-        }));
+        setErrors({})
       
         if (field === "currentPassword") setCurrentPassword(value);
         if (field === "newPassword") setNewPassword(value);
     };
 
     const handleBack = () => {
+        setNewPassword("")
+        setCurrentPassword("")
+        setErrors({})
         if (handleSuccess) {
             handleSuccess();
         }
