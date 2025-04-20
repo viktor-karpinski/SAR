@@ -136,27 +136,29 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
                 
                 top: appVertical, left: appHorizontal
             }}>
-               <HomeScreen
+                <HomeScreen
                     extra={{
-                    width: Dimensions.get("screen").width,
-                    height: Dimensions.get("screen").height,
-                    
-                }}
-                stacked={handleStackedHomeScreen}
-                back={handleBackHomeScreen}
-                />
+                        width: Dimensions.get("screen").width,
+                        height: Dimensions.get("screen").height,
+                        
+                    }}
+                    stacked={handleStackedHomeScreen}
+                    back={handleBackHomeScreen}
+                    />
                 <MembersScreen
                     extra={{
-                    width: Dimensions.get("screen").width,
-                    height: Dimensions.get("screen").height,
-                }}
-                />
+                        width: Dimensions.get("screen").width,
+                        height: Dimensions.get("screen").height,
+                    }}
+                    />
                 <SettingsScreen
                     extra={{
-                    width: Dimensions.get("screen").width,
-                    height: Dimensions.get("screen").height,
-                }}
-                onLogOut={localHandleLogout}
+                        width: Dimensions.get("screen").width,
+                        height: Dimensions.get("screen").height,
+                    }}
+                    onLogOut={localHandleLogout}
+                    stacked={handleStackedHomeScreen}
+                    back={handleBackHomeScreen}
                 /> 
             </Animated.View>
         </>

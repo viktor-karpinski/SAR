@@ -13,9 +13,10 @@ import PopUp from "../components/PopUp";
 
 type InputProps = {
   handleSuccess?: () => void;
+  handleDelete?: () => void;
 };
 
-export default function UserEditForm({ handleSuccess }: InputProps) {
+export default function UserEditForm({ handleSuccess, handleDelete }: InputProps) {
   const { user, apiURL, apiToken, setUser, fonts } = useGlobalContext(); 
 
   const [name, setName] = useState(user.name);
@@ -78,9 +79,34 @@ export default function UserEditForm({ handleSuccess }: InputProps) {
     }
   };
 
+  const deleteAccount = async () => {
+    if(handleDelete) {
+      let localToken = apiToken
+      handleDelete()
+
+      setIsPopUpVisible(false)
+
+      const response = await fetch(apiURL + "user", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer " + localToken
+        },
+      });
+  
+      if (response.ok) {
+        if (handleBack)
+          handleBack()
+        if (handleDelete)
+          handleDelete()
+      } 
+    }
+  }
+
   return (
   <KeyboardAwareScrollView style={[styles.scrollViewContent]}>
-    <PopUp text="Naozaj chcete odstrániť svoj účet?" label="Áno, som si istý" isConfirmation={true} visible={isPopUpVisible} onClose={() => setIsPopUpVisible(false)} />
+    <PopUp text="Naozaj chcete odstrániť svoj účet?" label="Áno, som si istý" isConfirmation={true} visible={isPopUpVisible} onClose={() => setIsPopUpVisible(false)} action={deleteAccount} />
 
     <View style={
       {

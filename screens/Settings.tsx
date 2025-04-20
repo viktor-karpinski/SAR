@@ -9,9 +9,11 @@ import UserEditForm from './UserEditForm';
 type InputProps = {
   extra: Object,
   onLogOut?: () => void,
+  stacked?: () => void;
+  back?: () => void;
 }
 
-export default function SettingsScreen({extra, onLogOut}: InputProps) {
+export default function SettingsScreen({extra, onLogOut, stacked, back}: InputProps) {
   const { setApiToken, setFirebaseToken, setUser, setUsers, user, fonts } = useGlobalContext();
   const mainVertical = useRef(new Animated.Value(0)).current;
   const secondaryVertical = useRef(new Animated.Value(-Dimensions.get("window").height)).current
@@ -43,6 +45,10 @@ export default function SettingsScreen({extra, onLogOut}: InputProps) {
       duration: 500,
       useNativeDriver: false,
     }).start();
+
+    if (stacked) {
+      stacked()
+    }
   }
 
   const handleBack = () => {
@@ -57,6 +63,10 @@ export default function SettingsScreen({extra, onLogOut}: InputProps) {
       duration: 500,
       useNativeDriver: false,
     }).start();
+
+    if (back) {
+      back()
+    }
   }
 
   return (
@@ -82,7 +92,7 @@ export default function SettingsScreen({extra, onLogOut}: InputProps) {
       </Animated.View>
 
       <Animated.View style={[styles.container, {top: secondaryVertical, left: secondaryHorizontal}, styles.secondaryContainer]}>
-        <UserEditForm handleSuccess={handleBack} />
+        <UserEditForm handleSuccess={handleBack} handleDelete={handleLogout} />
         <UserEditForm handleSuccess={() => {}} />
       </Animated.View>
     </View>
