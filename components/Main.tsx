@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Alert, Animated, Dimensions } from "react-native";
+import { Alert, Animated, Dimensions, Platform, PermissionsAndroid } from "react-native";
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import NavBar from "./NavBar";
 import { useGlobalContext } from "./../context";
