@@ -35,13 +35,29 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
     }, []);
     
     const requestUserPermission = async (): Promise<void> => {
-        const authStatus = await messaging().requestPermission();
-        const enabled =
+        if (Platform.OS === 'android') {
+            const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+                {
+                    title: 'Notification Permission',
+                    message: 'This app needs permission to send you alerts about events.',
+                    buttonPositive: 'Allow',
+                    buttonNegative: 'Deny',
+                }
+            );
+
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                await getFcmToken();
+            }
+        } else {
+            const authStatus = await messaging().requestPermission();
+            const enabled =
             authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
             authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-        if (enabled) {
-            await getFcmToken();
+            if (enabled) {
+                await getFcmToken();
+            }
         }
     };
     
