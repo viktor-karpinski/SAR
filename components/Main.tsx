@@ -6,6 +6,7 @@ import { useGlobalContext } from "./../context";
 import SettingsScreen from "../screens/Settings";
 import MembersScreen from "../screens/Members";
 import HomeScreen from "../screens/Home";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
     navVertical: Animated.Value;
@@ -19,12 +20,13 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
     const appHorizontal = useRef(new Animated.Value(0)).current;
     const [currentTab, setCurrentTab] = useState(0);
 
+    const insets = useSafeAreaInsets();
+
     useEffect(() => {      
         requestUserPermission();
 
         const unsubscribe = messaging().onMessage(
             async (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
-                // LOAD EVENTS
                 getEvents()
             }
         );
@@ -140,7 +142,7 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
 
     return (
         <>
-            <NavBar extra={{bottom: navVertical}} currentTab={currentTab} setCurrentTab={setCurrentTab} onTabSwitch={handleTabSwitch} />
+            <NavBar extra={{bottom: navVertical, paddingBottom: insets.bottom, height: (80 + insets.bottom)}} currentTab={currentTab} setCurrentTab={setCurrentTab} onTabSwitch={handleTabSwitch} />
             <Animated.View style={{
                 flex: 1,
                 flexDirection: "row",

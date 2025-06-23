@@ -289,8 +289,8 @@ const styles = StyleSheet.create({
     position: "absolute"
   },
   logo: {
-    height: 160,
-    width: 160,
+    height: 120,
+    width: 120,
   },
   heading: {
     fontSize: 22,
