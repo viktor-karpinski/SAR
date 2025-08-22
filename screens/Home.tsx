@@ -45,7 +45,7 @@ export default function HomeScreen({extra, stacked, back}: Props) {
     let isPending = false
     let current = {}
 
-    events.forEach((event: Object) => {
+    events?.forEach((event: Object) => {
       if (!event.till) {
         current = event
         isPending = true
@@ -67,6 +67,8 @@ export default function HomeScreen({extra, stacked, back}: Props) {
           getPendingEvent(currentEvent)
         }, 3000)
         setHasPendingEvent(true)
+      } else {
+        setHasPendingEvent(false)
       }
     }
   }, [currentEvent])

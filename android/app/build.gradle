@@ -72,8 +72,8 @@ android {
         applicationId "com.viktorkarpinski.sar_android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "9.0"
+        versionCode 10
+        versionName "10.0"
         externalNativeBuild {
             cmake {
                 cppFlags ''

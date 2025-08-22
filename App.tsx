@@ -4,6 +4,7 @@ import Background from './components/Background';
 import GlobalProvider from './context';
 import Auth from './components/Auth';
 import Main from './components/Main';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -60,12 +61,14 @@ const App: React.FC = () => {
   }
 
   return (
-    <GlobalProvider>
-      <Background>
-        <Auth authVertical={authVertical} handleAuth={handleAuthSuccess} />
-        {isAuthenticated && <Main navVertical={navVertical} appVertical={appVertical} handleLogout={handleLogout} />}
-      </Background>
-    </GlobalProvider>
+    <SafeAreaProvider>
+      <GlobalProvider>
+        <Background>
+          <Auth authVertical={authVertical} handleAuth={handleAuthSuccess} />
+          {isAuthenticated && <Main navVertical={navVertical} appVertical={appVertical} handleLogout={handleLogout} />}
+        </Background>
+      </GlobalProvider>
+    </SafeAreaProvider>
   );
 };
 

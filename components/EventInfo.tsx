@@ -24,7 +24,7 @@ const EventInfo = ({event} : Props) => {
 
             {event.till == null && <View style={[styles.status, event.status == 'active' && {backgroundColor: "#154FA1"}]}>
                 <Text style={[styles.text, {fontFamily: fonts[2]}]}>
-                    Aktuálny Stav: {event.status != 'active' ? 'Buď Pripravení' : 'Zásah je v Akcii'}
+                    Aktuálny Stav: {event.status != 'active' ? 'Stand-By' : 'Zásah je v Akcii'}
                 </Text>
             </View>}
         </View>

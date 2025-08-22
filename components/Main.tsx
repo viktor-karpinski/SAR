@@ -22,6 +22,8 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
 
     const insets = useSafeAreaInsets();
 
+    const safeBottom = insets?.bottom ?? 0;
+
     useEffect(() => {      
         requestUserPermission();
 
@@ -142,7 +144,7 @@ const Main = ({navVertical, appVertical, handleLogout}: Props) => {
 
     return (
         <>
-            <NavBar extra={{bottom: navVertical, paddingBottom: insets.bottom, height: (80 + insets.bottom)}} currentTab={currentTab} setCurrentTab={setCurrentTab} onTabSwitch={handleTabSwitch} />
+            <NavBar extra={{bottom: navVertical, paddingBottom: safeBottom, height: (80 + safeBottom)}} currentTab={currentTab} setCurrentTab={setCurrentTab} onTabSwitch={handleTabSwitch} />
             <Animated.View style={{
                 flex: 1,
                 flexDirection: "row",
